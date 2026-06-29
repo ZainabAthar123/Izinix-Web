@@ -3,550 +3,483 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Space Voyage</title>
-
-  <!-- Google Fonts -->
+  <title>Jack -- 3D Creator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            heading: ['Instrument Serif', 'serif'],
-            body:    ['Barlow', 'sans-serif'],
-          },
-          borderRadius: {
-            DEFAULT: '9999px',
-          },
-        },
-      },
+      theme: { extend: { fontFamily: { sans: ['Kanit', 'sans-serif'] } } }
     };
   </script>
-
-  <!-- React 18 -->
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
-    integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
-    integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
-    crossorigin="anonymous"></script>
-
-  <!-- Babel standalone -->
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
-    integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
-    crossorigin="anonymous"></script>
-
-  <!-- Framer Motion -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
   <script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
   <script>window.Motion = window.FramerMotion;</script>
-
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: #000; }
-
-    /* ── Liquid Glass — subtle ─────────────────────────────────────────────── */
-    .liquid-glass {
-      background: rgba(255,255,255,0.01);
-      background-blend-mode: luminosity;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: none;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
-      position: relative;
-      overflow: hidden;
-    }
-    .liquid-glass::before {
-      content: "";
-      position: absolute; inset: 0;
-      border-radius: inherit;
-      padding: 1.4px;
-      background: linear-gradient(180deg,
-        rgba(255,255,255,0.45) 0%,
-        rgba(255,255,255,0.15) 20%,
-        rgba(255,255,255,0)    40%,
-        rgba(255,255,255,0)    60%,
-        rgba(255,255,255,0.15) 80%,
-        rgba(255,255,255,0.45) 100%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    /* ── Liquid Glass — strong ─────────────────────────────────────────────── */
-    .liquid-glass-strong {
-      background: rgba(255,255,255,0.01);
-      background-blend-mode: luminosity;
-      backdrop-filter: blur(50px);
-      -webkit-backdrop-filter: blur(50px);
-      border: none;
-      box-shadow: 4px 4px 4px rgba(0,0,0,0.05), inset 0 1px 1px rgba(255,255,255,0.15);
-      position: relative;
-      overflow: hidden;
-    }
-    .liquid-glass-strong::before {
-      content: "";
-      position: absolute; inset: 0;
-      border-radius: inherit;
-      padding: 1.4px;
-      background: linear-gradient(180deg,
-        rgba(255,255,255,0.5) 0%,
-        rgba(255,255,255,0.2) 20%,
-        rgba(255,255,255,0)   40%,
-        rgba(255,255,255,0)   60%,
-        rgba(255,255,255,0.2) 80%,
-        rgba(255,255,255,0.5) 100%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { background: #0C0C0C; font-family: 'Kanit', sans-serif; }
+    .hero-heading {
+      background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
-
   <script type="text/babel">
-    /* ── Suppress benign Framer Motion dev list-key warnings ─────────────── */
-    const _origErr = console.error.bind(console);
-    console.error = (...args) => {
-      if (typeof args[0] === 'string' && (
-        args[0].includes('Each child in a list') ||
-        args[0].includes('unique "key"')
-      )) return;
-      _origErr(...args);
-    };
-
     const { useRef, useEffect, useState } = React;
-    const { motion } = Motion;
+    const { motion, useScroll, useTransform } = Motion;
 
-    /* ════════════════════════════════════════════════════════════════════════
-       FadingVideo — looping video with rAF crossfade (no CSS transitions)
-       ════════════════════════════════════════════════════════════════════════ */
-    const FADE_MS       = 500;
-    const FADE_OUT_LEAD = 0.55;
-
-    function FadingVideo({ src, className, style }) {
-      const videoRef    = useRef(null);
-      const rafRef      = useRef(null);
-      const fadingOutRef = useRef(false);
-
+    /* ─── Magnet ─────────────────────────────────────────────────────────── */
+    function Magnet({ children, padding = 150, strength = 3,
+      activeTransition = 'transform 0.3s ease-out',
+      inactiveTransition = 'transform 0.6s ease-in-out' }) {
+      const ref = useRef(null);
+      const [pos, setPos] = useState({ x: 0, y: 0 });
+      const [active, setActive] = useState(false);
       useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
-
-        /* fadeTo reads current opacity from video.style.opacity so each new
-           fade resumes from wherever the last one left off.                  */
-        function fadeTo(targetOpacity, durationMs) {
-          cancelAnimationFrame(rafRef.current);
-          const startTime    = performance.now();
-          const startOpacity = parseFloat(video.style.opacity) || 0;
-
-          function tick(now) {
-            const elapsed  = now - startTime;
-            const progress = Math.min(elapsed / durationMs, 1);
-            video.style.opacity = String(
-              startOpacity + (targetOpacity - startOpacity) * progress
-            );
-            if (progress < 1) rafRef.current = requestAnimationFrame(tick);
-          }
-          rafRef.current = requestAnimationFrame(tick);
-        }
-
-        function onLoadedData() {
-          video.style.opacity = '0';
-          video.play().catch(() => {});
-          fadeTo(1, FADE_MS);
-        }
-
-        function onTimeUpdate() {
-          const remaining = video.duration - video.currentTime;
-          if (!fadingOutRef.current && remaining <= FADE_OUT_LEAD && remaining > 0) {
-            fadingOutRef.current = true;
-            fadeTo(0, FADE_MS);
-          }
-        }
-
-        function onEnded() {
-          video.style.opacity = '0';
-          setTimeout(() => {
-            video.currentTime  = 0;
-            video.play().catch(() => {});
-            fadingOutRef.current = false;
-            fadeTo(1, FADE_MS);
-          }, 100);
-        }
-
-        video.style.opacity = '0';
-        video.addEventListener('loadeddata', onLoadedData);
-        video.addEventListener('timeupdate', onTimeUpdate);
-        video.addEventListener('ended',      onEnded);
-
-        return () => {
-          cancelAnimationFrame(rafRef.current);
-          video.removeEventListener('loadeddata', onLoadedData);
-          video.removeEventListener('timeupdate', onTimeUpdate);
-          video.removeEventListener('ended',      onEnded);
+        const onMove = (e) => {
+          const el = ref.current; if (!el) return;
+          const r = el.getBoundingClientRect();
+          const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+          const inside = e.clientX >= r.left - padding && e.clientX <= r.right + padding
+            && e.clientY >= r.top - padding && e.clientY <= r.bottom + padding;
+          if (inside) { setActive(true); setPos({ x: (e.clientX - cx) / strength, y: (e.clientY - cy) / strength }); }
+          else { setActive(false); setPos({ x: 0, y: 0 }); }
         };
-      }, [src]);
-
-      /* loop is intentionally OFF — we implement looping manually via ended  */
+        window.addEventListener('mousemove', onMove);
+        return () => window.removeEventListener('mousemove', onMove);
+      }, [padding, strength]);
       return (
-        <video
-          ref={videoRef}
-          src={src}
-          autoPlay muted playsInline preload="auto"
-          className={className}
-          style={{ opacity: 0, ...style }}
-        />
+        <div ref={ref} style={{ transform: `translate3d(${pos.x}px,${pos.y}px,0)`, transition: active ? activeTransition : inactiveTransition, willChange: 'transform' }}>
+          {children}
+        </div>
       );
     }
 
-    /* ════════════════════════════════════════════════════════════════════════
-       BlurText — word-by-word blur entrance, triggered by IntersectionObserver
-       ════════════════════════════════════════════════════════════════════════ */
-    function BlurText({ text, className }) {
-      const containerRef = useRef(null);
-      const [triggered, setTriggered] = useState(false);
-
-      useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) { setTriggered(true); observer.disconnect(); }
-          },
-          { threshold: 0.1 }
-        );
-        observer.observe(el);
-        return () => observer.disconnect();
-      }, []);
-
-      const words = text.split(' ');
-
+    /* ─── FadeIn ─────────────────────────────────────────────────────────── */
+    function FadeIn({ children, delay = 0, duration = 0.7, x = 0, y = 30, className, style, ...rest }) {
       return (
-        <p
-          ref={containerRef}
-          className={className}
-          style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', rowGap: '0.1em' }}
-        >
-          {words.map((word, i) => (
-            <motion.span
-              key={i}
-              initial={{ filter: 'blur(10px)', opacity: 0, y: 50 }}
-              animate={triggered
-                ? { filter: ['blur(10px)', 'blur(5px)', 'blur(0px)'],
-                    opacity: [0, 0.5, 1],
-                    y: [50, -5, 0] }
-                : { filter: 'blur(10px)', opacity: 0, y: 50 }
-              }
-              transition={{
-                duration: 0.7,
-                times: [0, 0.5, 1],
-                ease: 'easeOut',
-                delay: (i * 100) / 1000,
-              }}
-              style={{ display: 'inline-block', marginRight: '0.28em' }}
-            >
-              {word}
-            </motion.span>
-          ))}
+        <motion.div
+          initial={{ opacity: 0, x, y }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
+          viewport={{ once: true, margin: '50px', amount: 0 }}
+          transition={{ duration, delay, ease: [0.25, 0.1, 0.25, 1] }}
+          className={className} style={style} {...rest}
+        >{children}</motion.div>
+      );
+    }
+
+    /* ─── AnimChar ───────────────────────────────────────────────────────── */
+    function AnimChar({ char, progress, index, total }) {
+      const start = index / total, end = (index + 1) / total;
+      const opacity = useTransform(progress, [start, end], [0.2, 1]);
+      return (
+        <span style={{ position: 'relative', display: 'inline', whiteSpace: 'pre' }}>
+          <span style={{ visibility: 'hidden' }}>{char}</span>
+          <motion.span style={{ opacity, position: 'absolute', left: 0, top: 0 }}>{char}</motion.span>
+        </span>
+      );
+    }
+
+    /* ─── AnimatedText ───────────────────────────────────────────────────── */
+    function AnimatedText({ text, className, style }) {
+      const ref = useRef(null);
+      const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.8', 'end 0.2'] });
+      const chars = text.split('');
+      return (
+        <p ref={ref} className={className} style={{ position: 'relative', ...style }}>
+          {chars.map((c, i) => <AnimChar key={i} char={c} progress={scrollYProgress} index={i} total={chars.length} />)}
         </p>
       );
     }
 
-    /* ════════════════════════════════════════════════════════════════════════
-       Inline SVG icons (lucide-style, currentColor stroke)
-       ════════════════════════════════════════════════════════════════════════ */
-    function ArrowUpRight({ className = '' }) {
+    /* ─── ContactButton ──────────────────────────────────────────────────── */
+    function ContactButton() {
       return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" strokeWidth="2"
-          strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <path d="M7 17L17 7"/>
-          <path d="M7 7h10v10"/>
-        </svg>
+        <button className="px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base" style={{
+          background: 'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
+          boxShadow: '0px 4px 4px rgba(181,1,167,0.25), 4px 4px 12px #7721B1 inset',
+          outline: '2px solid white', outlineOffset: '-3px',
+          borderRadius: '9999px', border: 'none', cursor: 'pointer',
+          color: 'white', fontFamily: 'Kanit,sans-serif', fontWeight: 500,
+          textTransform: 'uppercase', letterSpacing: '0.1em',
+        }}>Contact Me</button>
       );
     }
 
-    function PlayIcon({ className = '' }) {
+    /* ─── LiveProjectButton ──────────────────────────────────────────────── */
+    function LiveProjectButton() {
       return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-          fill="currentColor" className={className}>
-          <polygon points="6 4 20 12 6 20 6 4"/>
-        </svg>
+        <button className="px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base transition-colors" style={{
+          borderRadius: '9999px', border: '2px solid #D7E2EA',
+          color: '#D7E2EA', background: 'transparent', cursor: 'pointer',
+          fontFamily: 'Kanit,sans-serif', fontWeight: 500,
+          textTransform: 'uppercase', letterSpacing: '0.1em',
+        }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(215,226,234,0.1)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >Live Project</button>
       );
     }
 
-    /* ════════════════════════════════════════════════════════════════════════
-       Navbar
-       ════════════════════════════════════════════════════════════════════════ */
-    function Navbar() {
-      const NAV_LINKS = ['Home', 'Voyages', 'Worlds', 'Innovation', 'Plan Launch'];
-      return (
-        <nav className="fixed top-4 left-0 right-0 z-50 px-8 lg:px-16 flex items-center justify-between">
-          {/* Logo pill */}
-          <div className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="font-heading italic text-white text-xl leading-none select-none">a</span>
-          </div>
+    /* ═══════════════════════════════════════════════════════════════════════
+       1. HERO SECTION
+    ══════════════════════════════════════════════════════════════════════════ */
+    const NAV_LINKS = ['About', 'Price', 'Projects', 'Contact'];
 
-          {/* Centre nav — desktop only */}
-          <div className="hidden md:flex items-center liquid-glass rounded-full px-1.5 py-1.5">
-            {NAV_LINKS.map(link => (
-              <a key={link} href="#"
-                className="px-3 py-2 text-sm font-medium text-white/90 font-body hover:text-white transition-colors whitespace-nowrap">
-                {link}
-              </a>
-            ))}
-            <button className="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold font-body whitespace-nowrap flex items-center gap-1.5 ml-1 cursor-pointer">
-              Claim a Spot
-              <ArrowUpRight className="h-4 w-4" />
-            </button>
-          </div>
-
-          {/* Invisible balance spacer */}
-          <div className="w-12 h-12 flex-shrink-0" />
-        </nav>
-      );
-    }
-
-    /* ════════════════════════════════════════════════════════════════════════
-       Hero Section
-       ════════════════════════════════════════════════════════════════════════ */
     function HeroSection() {
-      const fu = (delay) => ({
-        initial:    { filter: 'blur(10px)', opacity: 0, y: 20 },
-        animate:    { filter: 'blur(0px)',  opacity: 1, y: 0  },
-        transition: { ease: 'easeOut', duration: 0.7, delay   },
-      });
-
       return (
-        <section className="relative min-h-screen bg-black flex flex-col overflow-hidden">
+        <section style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflowX: 'clip', background: '#0C0C0C', position: 'relative' }}>
+          {/* Navbar */}
+          <FadeIn delay={0} y={-20} className="px-6 md:px-10 pt-6 md:pt-8">
+            <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
+              {NAV_LINKS.map(link => (
+                <a key={link} href="#" className="text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200"
+                  style={{ color: '#D7E2EA', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', textDecoration: 'none' }}>
+                  {link}
+                </a>
+              ))}
+            </nav>
+          </FadeIn>
 
-          {/* Background video — 120 % wide, top-anchored, no overlay */}
-          <FadingVideo
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4"
-            className="absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
-            style={{ width: '120%', height: '120%' }}
-          />
+          {/* Heading */}
+          <div style={{ overflow: 'hidden' }}>
+            <FadeIn delay={0.15} y={40}>
+              <h1 className="hero-heading font-black uppercase tracking-tight leading-none whitespace-nowrap w-full text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw] mt-6 sm:mt-4 md:-mt-5 px-6 md:px-10">
+                Hi, i&apos;m jack
+              </h1>
+            </FadeIn>
+          </div>
 
-          {/* z-10 content layer */}
-          <div className="relative z-10 flex flex-col min-h-screen">
-            <Navbar />
+          {/* Spacer */}
+          <div style={{ flex: 1 }} />
 
-            {/* ── Hero content (centred) ─────────────────────────────────── */}
-            <div className="flex-1 flex flex-col items-center justify-center pt-24 px-4">
+          {/* Bottom bar */}
+          <div className="px-6 md:px-10 pb-7 sm:pb-8 md:pb-10" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <FadeIn delay={0.35} y={20}>
+              <p className="max-w-[160px] sm:max-w-[220px] md:max-w-[260px]" style={{ color: '#D7E2EA', fontWeight: 300, textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1.35, fontSize: 'clamp(0.75rem, 1.4vw, 1.5rem)' }}>
+                a 3d creator driven by crafting striking and unforgettable projects
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.5} y={20}>
+              <ContactButton />
+            </FadeIn>
+          </div>
 
-              {/* Badge */}
-              <motion.div {...fu(0.4)}
-                className="liquid-glass rounded-full flex items-center gap-2 px-2 py-1.5 mb-6">
-                <span className="bg-white text-black px-3 py-1 rounded-full text-xs font-semibold font-body">
-                  New
-                </span>
-                <span className="text-sm text-white/90 font-body pr-3">
-                  Maiden Crewed Voyage to Mars Arrives 2026
-                </span>
-              </motion.div>
-
-              {/* Headline — word-by-word blur */}
-              <BlurText
-                text="Venture Past Our Sky Across the Universe"
-                className="text-6xl md:text-7xl lg:text-[5.5rem] font-heading italic text-white leading-[0.8] max-w-2xl justify-center tracking-[-4px]"
-              />
-
-              {/* Subheading */}
-              <motion.p {...fu(0.8)}
-                className="mt-4 text-sm md:text-base text-white max-w-2xl font-body font-light leading-tight text-center">
-                Discover the universe in ways once unimaginable. Our pioneering vessels and
-                breakthrough engineering bring deep-space exploration within reach—secure and extraordinary.
-              </motion.p>
-
-              {/* CTA row */}
-              <motion.div {...fu(1.1)} className="flex items-center gap-6 mt-6">
-                <button className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white flex items-center gap-2 font-body cursor-pointer">
-                  Start Your Voyage
-                  <ArrowUpRight className="h-5 w-5" />
-                </button>
-                <button className="text-white text-sm font-body font-medium flex items-center gap-2 cursor-pointer bg-transparent border-0">
-                  View Liftoff
-                  <PlayIcon className="h-4 w-4" />
-                </button>
-              </motion.div>
-
-              {/* Stats cards */}
-              <motion.div {...fu(1.3)} className="flex items-stretch gap-4 mt-8">
-
-                {/* Card 1 — clock */}
-                <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
-                    stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  <div>
-                    <div className="text-4xl font-heading italic text-white tracking-[-1px] leading-none">
-                      34.5 Min
-                    </div>
-                    <div className="text-xs text-white font-body font-light mt-2">
-                      Average Videos Watch Time
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card 2 — globe */}
-                <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
-                    stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="2" y1="12" x2="22" y2="12"/>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                  </svg>
-                  <div>
-                    <div className="text-4xl font-heading italic text-white tracking-[-1px] leading-none">
-                      2.8B+
-                    </div>
-                    <div className="text-xs text-white font-body font-light mt-2">
-                      Users Across the Globe
-                    </div>
-                  </div>
-                </div>
-
-              </motion.div>
-            </div>{/* /hero content */}
-
-            {/* ── Partners row ──────────────────────────────────────────── */}
+          {/* Portrait — centered absolute */}
+          <div className="absolute left-1/2 -translate-x-1/2 z-10 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px] top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0">
             <motion.div
-              initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
-              animate={{ filter: 'blur(0px)',  opacity: 1, y: 0  }}
-              transition={{ ease: 'easeOut', duration: 0.7, delay: 1.4 }}
-              className="flex flex-col items-center gap-4 pb-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <div className="liquid-glass rounded-full px-3.5 py-1">
-                <span className="text-xs font-medium text-white font-body">
-                  Collaborating with top aerospace pioneers globally
-                </span>
-              </div>
-              <div className="flex items-center gap-12 md:gap-16">
-                {['Aeon', 'Vela', 'Apex', 'Orbit', 'Zeno'].map(name => (
-                  <span key={name}
-                    className="font-heading italic text-white text-2xl md:text-3xl tracking-tight">
-                    {name}
-                  </span>
-                ))}
-              </div>
+              <Magnet padding={150} strength={3} activeTransition="transform 0.3s ease-out" inactiveTransition="transform 0.6s ease-in-out">
+                <img
+                  src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
+                  alt="Jack — 3D Creator"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </Magnet>
             </motion.div>
-
-          </div>{/* /z-10 layer */}
+          </div>
         </section>
       );
     }
 
-    /* ════════════════════════════════════════════════════════════════════════
-       Capabilities Section
-       ════════════════════════════════════════════════════════════════════════ */
-    const CAP_CARDS = [
+    /* ═══════════════════════════════════════════════════════════════════════
+       2. MARQUEE SECTION
+    ══════════════════════════════════════════════════════════════════════════ */
+    const MARQUEE_IMGS = [
+      'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
+      'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
+      'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
+      'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
+      'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
+      'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
+      'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
+      'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
+      'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
+      'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
+      'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
+      'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif',
+      'https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif',
+      'https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif',
+      'https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif',
+      'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif',
+      'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif',
+      'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif',
+      'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif',
+      'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif',
+      'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
+    ];
+    const ROW1 = [...MARQUEE_IMGS.slice(0, 11), ...MARQUEE_IMGS.slice(0, 11), ...MARQUEE_IMGS.slice(0, 11)];
+    const ROW2 = [...MARQUEE_IMGS.slice(11), ...MARQUEE_IMGS.slice(11), ...MARQUEE_IMGS.slice(11)];
+
+    function MarqueeSection() {
+      const sectionRef = useRef(null);
+      const row1Ref = useRef(null);
+      const row2Ref = useRef(null);
+
+      useEffect(() => {
+        const onScroll = () => {
+          if (!sectionRef.current) return;
+          const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY;
+          const offset = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
+          if (row1Ref.current) row1Ref.current.style.transform = `translateX(${offset - 200}px)`;
+          if (row2Ref.current) row2Ref.current.style.transform = `translateX(${-(offset - 200)}px)`;
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+
+      const imgStyle = { width: 420, height: 270, borderRadius: 16, objectFit: 'cover', flexShrink: 0 };
+
+      return (
+        <section ref={sectionRef} style={{ background: '#0C0C0C', overflowX: 'hidden' }} className="pt-24 sm:pt-32 md:pt-40 pb-10">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div ref={row1Ref} style={{ display: 'flex', gap: 12, willChange: 'transform' }}>
+              {ROW1.map((src, i) => <img key={i} src={src} alt="" loading="lazy" style={imgStyle} />)}
+            </div>
+            <div ref={row2Ref} style={{ display: 'flex', gap: 12, willChange: 'transform' }}>
+              {ROW2.map((src, i) => <img key={i} src={src} alt="" loading="lazy" style={imgStyle} />)}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       3. ABOUT SECTION
+    ══════════════════════════════════════════════════════════════════════════ */
+    function AboutSection() {
+      return (
+        <section style={{ background: '#0C0C0C', position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          className="px-5 sm:px-8 md:px-10 py-20">
+
+          {/* Top-left: Moon */}
+          <FadeIn delay={0.1} x={-80} y={0} duration={0.9}
+            style={{ position: 'absolute', top: '4%', left: '1%' }}
+            className="sm:left-[2%] md:left-[4%]">
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png"
+              alt="" className="w-[120px] sm:w-[160px] md:w-[210px]" style={{ display: 'block' }} />
+          </FadeIn>
+
+          {/* Bottom-left: 3D object */}
+          <FadeIn delay={0.25} x={-80} y={0} duration={0.9}
+            style={{ position: 'absolute', bottom: '8%', left: '3%' }}
+            className="sm:left-[6%] md:left-[10%]">
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png"
+              alt="" className="w-[100px] sm:w-[140px] md:w-[180px]" style={{ display: 'block' }} />
+          </FadeIn>
+
+          {/* Top-right: Lego */}
+          <FadeIn delay={0.15} x={80} y={0} duration={0.9}
+            style={{ position: 'absolute', top: '4%', right: '1%' }}
+            className="sm:right-[2%] md:right-[4%]">
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png"
+              alt="" className="w-[120px] sm:w-[160px] md:w-[210px]" style={{ display: 'block' }} />
+          </FadeIn>
+
+          {/* Bottom-right: 3D group */}
+          <FadeIn delay={0.3} x={80} y={0} duration={0.9}
+            style={{ position: 'absolute', bottom: '8%', right: '3%' }}
+            className="sm:right-[6%] md:right-[10%]">
+            <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png"
+              alt="" className="w-[130px] sm:w-[170px] md:w-[220px]" style={{ display: 'block' }} />
+          </FadeIn>
+
+          {/* Center content */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1, position: 'relative' }}
+            className="gap-10 sm:gap-14 md:gap-16">
+            <FadeIn delay={0} y={40}>
+              <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center"
+                style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}>
+                About me
+              </h2>
+            </FadeIn>
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className="gap-16 sm:gap-20 md:gap-24">
+              <AnimatedText
+                text="With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!"
+                className="max-w-[560px] text-center font-medium leading-relaxed"
+                style={{ color: '#D7E2EA', fontSize: 'clamp(1rem, 2vw, 1.35rem)' }}
+              />
+              <ContactButton />
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       4. SERVICES SECTION
+    ══════════════════════════════════════════════════════════════════════════ */
+    const SERVICES = [
+      { num: '01', name: '3D Modeling', desc: 'Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.' },
+      { num: '02', name: 'Rendering', desc: 'High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.' },
+      { num: '03', name: 'Motion Design', desc: 'Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.' },
+      { num: '04', name: 'Branding', desc: 'Crafting cohesive visual identities — from logos to full brand systems — that communicate a clear and memorable presence.' },
+      { num: '05', name: 'Web Design', desc: 'Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.' },
+    ];
+
+    function ServicesSection() {
+      return (
+        <section style={{ background: '#ffffff' }}
+          className="px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px]">
+          <FadeIn delay={0} y={40}>
+            <h2 className="font-black uppercase text-center mb-16 sm:mb-20 md:mb-28"
+              style={{ color: '#0C0C0C', fontSize: 'clamp(3rem, 12vw, 160px)', lineHeight: 1, letterSpacing: '-0.02em' }}>
+              Services
+            </h2>
+          </FadeIn>
+
+          <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
+            {SERVICES.map((svc, i) => (
+              <FadeIn key={svc.num} delay={i * 0.1} y={30}>
+                <div style={{ borderTop: '1px solid rgba(12,12,12,0.15)', display: 'flex', alignItems: 'flex-start', gap: '1.5rem' }}
+                  className="py-8 sm:py-10 md:py-12">
+                  <span className="font-black shrink-0" style={{ fontSize: 'clamp(3rem, 10vw, 140px)', color: '#0C0C0C', lineHeight: 1 }}>
+                    {svc.num}
+                  </span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingTop: '0.5rem' }}>
+                    <span className="font-medium uppercase" style={{ fontSize: 'clamp(1rem, 2.2vw, 2.1rem)', color: '#0C0C0C' }}>
+                      {svc.name}
+                    </span>
+                    <span className="font-light leading-relaxed max-w-2xl" style={{ fontSize: 'clamp(0.85rem, 1.6vw, 1.25rem)', color: '#0C0C0C', opacity: 0.6 }}>
+                      {svc.desc}
+                    </span>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+            <div style={{ borderTop: '1px solid rgba(12,12,12,0.15)' }} />
+          </div>
+        </section>
+      );
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       5. PROJECTS SECTION
+    ══════════════════════════════════════════════════════════════════════════ */
+    const PROJECTS = [
       {
-        /* image icon */
-        iconPath: 'M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21H5Zm1-4h12l-3.75-5-3 4L9 13l-3 4Z',
-        tags:  ['Natural Context', 'Photo Realism', 'Infinite Settings', 'Eco-Vibe'],
-        title: 'AI Scenery',
-        body:  'AI analyzes your product to create indistinguishable natural environments — from Icelandic cliffs to misty forests.',
+        num: '01', name: 'Nextlevel Studio', category: 'Client',
+        col1: [
+          'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
+          'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85',
+        ],
+        col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85',
       },
       {
-        /* movie icon */
-        iconPath: 'M4 6.47 5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.89-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4Z',
-        tags:  ['Scale Fast', 'Visual Consistency', 'Time Saver', 'Ready to Post'],
-        title: 'Batch Production',
-        body:  'Style your entire product line in minutes. Create a unified visual identity for catalogues and social media without weeks of retouching.',
+        num: '02', name: 'Aura Brand Identity', category: 'Personal',
+        col1: [
+          'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
+          'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85',
+        ],
+        col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85',
       },
       {
-        /* lightbulb icon */
-        iconPath: 'M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1Zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7Z',
-        tags:  ['Ray Tracing', 'Physical Shadows', 'Studio Quality', 'Sunlight Sync'],
-        title: 'Smart Lighting',
-        body:  'Automatic lighting and material adjustment. Achieve flawless integration with realistic shadows and sunlight.',
+        num: '03', name: 'Solaris Digital', category: 'Client',
+        col1: [
+          'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
+          'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
+        ],
+        col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85',
       },
     ];
 
-    function CapabilitiesSection() {
+    const imgBR = 'clamp(20px, 4vw, 60px)';
+
+    function ProjectCard({ project, index, totalCards }) {
+      const containerRef = useRef(null);
+      const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end start'] });
+      const targetScale = 1 - (totalCards - 1 - index) * 0.03;
+      const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
+      const stickyTop = 96 + index * 28;
+
       return (
-        <section className="relative min-h-screen bg-black overflow-hidden">
+        <div ref={containerRef} style={{ height: '85vh' }}>
+          <motion.div style={{
+            scale, position: 'sticky', top: stickyTop, willChange: 'transform',
+            transformOrigin: 'top center', background: '#0C0C0C',
+            border: '2px solid #D7E2EA', overflow: 'hidden',
+          }} className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] p-4 sm:p-6 md:p-8">
 
-          {/* Background video — full-bleed, no overlay */}
-          <FadingVideo
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4"
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-
-          <div className="relative z-10 px-8 md:px-16 lg:px-20 pt-24 pb-10 flex flex-col min-h-screen">
-
-            {/* ── Header ──────────────────────────────────────────────── */}
-            <div className="mb-auto">
-              <p className="text-sm font-body text-white/80 mb-6">// Capabilities</p>
-              <h2 className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]">
-                Production<br/>evolved
-              </h2>
-            </div>
-
-            {/* ── Cards grid ──────────────────────────────────────────── */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-              {CAP_CARDS.map((card, i) => (
-                <div key={i} className="liquid-glass rounded-[1.25rem] p-6 min-h-[360px] flex flex-col">
-
-                  {/* Top row: icon + tags */}
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="liquid-glass w-11 h-11 rounded-[0.75rem] flex items-center justify-center flex-shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        fill="currentColor" className="h-6 w-6 text-white">
-                        <path d={card.iconPath}/>
-                      </svg>
-                    </div>
-                    <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
-                      {card.tags.map(tag => (
-                        <span key={tag}
-                          className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Spacer */}
-                  <div className="flex-1" />
-
-                  {/* Bottom: title + body */}
-                  <div className="mt-6">
-                    <h3 className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
-                      {card.title}
-                    </h3>
-                    <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug max-w-[32ch]">
-                      {card.body}
-                    </p>
-                  </div>
-
+            {/* Top row */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+                <span className="hero-heading font-black" style={{ fontSize: 'clamp(3rem, 10vw, 140px)', lineHeight: 1 }}>
+                  {project.num}
+                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', paddingTop: '0.5rem' }}>
+                  <span style={{ color: '#D7E2EA', opacity: 0.6, fontSize: 'clamp(0.75rem, 1.2vw, 1rem)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    {project.category}
+                  </span>
+                  <span className="font-medium uppercase" style={{ color: '#D7E2EA', fontSize: 'clamp(1rem, 2vw, 1.8rem)', letterSpacing: '0.05em' }}>
+                    {project.name}
+                  </span>
                 </div>
-              ))}
+              </div>
+              <LiveProjectButton />
             </div>
 
+            {/* Bottom image grid */}
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              {/* Left col — 40% */}
+              <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <img src={project.col1[0]} alt="" loading="lazy" style={{ width: '100%', height: 'clamp(130px, 16vw, 230px)', objectFit: 'cover', borderRadius: imgBR, display: 'block' }} />
+                <img src={project.col1[1]} alt="" loading="lazy" style={{ width: '100%', height: 'clamp(160px, 22vw, 340px)', objectFit: 'cover', borderRadius: imgBR, display: 'block' }} />
+              </div>
+              {/* Right col — 60% */}
+              <div style={{ width: '60%' }}>
+                <img src={project.col2} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: imgBR, display: 'block' }} />
+              </div>
+            </div>
+
+          </motion.div>
+        </div>
+      );
+    }
+
+    function ProjectsSection() {
+      return (
+        <section style={{ background: '#0C0C0C', position: 'relative', zIndex: 10 }}
+          className="rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-20">
+          <FadeIn delay={0} y={40}>
+            <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center mb-16 sm:mb-20 md:mb-24"
+              style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}>
+              Project
+            </h2>
+          </FadeIn>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {PROJECTS.map((proj, i) => (
+              <ProjectCard key={proj.num} project={proj} index={i} totalCards={PROJECTS.length} />
+            ))}
           </div>
         </section>
       );
     }
 
-    /* ════════════════════════════════════════════════════════════════════════
-       App root
-       ════════════════════════════════════════════════════════════════════════ */
+    /* ═══════════════════════════════════════════════════════════════════════
+       APP
+    ══════════════════════════════════════════════════════════════════════════ */
     function App() {
       return (
-        <>
+        <div style={{ background: '#0C0C0C', overflowX: 'clip' }}>
           <HeroSection />
-          <CapabilitiesSection />
-        </>
+          <MarqueeSection />
+          <AboutSection />
+          <ServicesSection />
+          <ProjectsSection />
+        </div>
       );
     }
 
