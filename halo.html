@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halo AI Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #08080f;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ───────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 2.5rem;
+      background: rgba(8, 8, 15, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-logo svg { width: 14px; height: 14px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .nav-cta {
+      padding: 0.45rem 1.1rem;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 7px;
+      background: transparent;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.78rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 7rem 2rem 5rem;
+    }
+
+    /* Blue glow blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blob-main {
+      width: min(75vw, 720px);
+      height: min(75vw, 720px);
+      background: radial-gradient(circle at center,
+        rgba(30, 95, 255, 0.85) 0%,
+        rgba(25, 80, 240, 0.55) 25%,
+        rgba(15, 55, 200, 0.25) 55%,
+        transparent 75%
+      );
+      filter: blur(60px);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+    }
+
+    .blob-accent {
+      width: min(45vw, 420px);
+      height: min(45vw, 420px);
+      background: radial-gradient(circle at center,
+        rgba(80, 140, 255, 0.55) 0%,
+        rgba(40, 100, 255, 0.25) 45%,
+        transparent 70%
+      );
+      filter: blur(50px);
+      top: 28%;
+      left: 38%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 680px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.55rem 1.2rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 7px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.82rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.13);
+      border-color: rgba(255,255,255,0.22);
+    }
+
+    /* Framer badge */
+    .framer-badge {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.75rem;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(20,20,30,0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.45);
+      backdrop-filter: blur(8px);
+    }
+
+    .framer-badge svg { width: 12px; height: 12px; opacity: 0.6; }
+
+    /* ── ABOUT ────────────────────────────────────────────────────── */
+    .about {
+      position: relative;
+      overflow: hidden;
+      padding: 9rem 2.5rem 9rem;
+    }
+
+    .about-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-watermark {
+      position: absolute;
+      font-size: clamp(9rem, 24vw, 21rem);
+      font-weight: 900;
+      color: rgba(255,255,255,0.035);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      white-space: nowrap;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      user-select: none;
+      z-index: 1;
+    }
+
+    .about h2 {
+      font-size: clamp(1.7rem, 3.2vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+      max-width: 700px;
+      margin-bottom: 2.5rem;
+    }
+
+    .blue { color: #4d8fff; }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.6rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.83rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-pill:hover { background: rgba(255,255,255,0.11); }
+
+    /* About section framer badge (bottom right) */
+    .about-badge {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(20,20,30,0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── SERVICES ─────────────────────────────────────────────────── */
+    .services {
+      padding: 5rem 2.5rem 9rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .services h2 {
+      font-size: clamp(2rem, 4.5vw, 3.75rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 2.5rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    /* ── Chat mockup ── */
+    .card-mockup {
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      min-height: 210px;
+    }
+
+    .chat-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.58rem; font-weight: 700;
+      flex-shrink: 0;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .avatar.ai { background: linear-gradient(135deg, #1e55ff, #5b8fff); color: #fff; }
+
+    .chat-meta { font-size: 0.62rem; color: rgba(255,255,255,0.3); margin-bottom: 0.3rem; }
+
+    .bubble {
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 0.45rem 0.7rem;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      max-width: 88%;
+    }
+
+    .chat-input-bar {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 0.45rem 0.7rem;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .chat-input-bar span { font-size: 0.72rem; color: rgba(255,255,255,0.25); flex: 1; }
+
+    .send-btn {
+      width: 22px; height: 22px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.09);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── Image gen mockup ── */
+    .imggen-status {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 0.75rem;
+    }
+
+    .imggen-canvas {
+      background: rgba(255,255,255,0.03);
+      border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 10px;
+      height: 95px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .imggen-canvas svg { opacity: 0.2; }
+
+    .imggen-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .imggen-field {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 7px;
+      padding: 0.42rem 0.7rem;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.28);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .imggen-gen-btn {
+      padding: 0.42rem 0.9rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.7rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ── Card body ── */
+    .card-body { padding: 1.25rem 1.5rem 1.5rem; }
+
+    .card-body h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .card-body p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.65;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      nav { padding: 0.9rem 1.25rem; }
+      .about { padding: 6rem 1.25rem; }
+      .services { padding: 3rem 1.25rem 6rem; }
+      .hero { padding: 6rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────────────────── -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 0L8.22 5.78L14 7L8.22 8.22L7 14L5.78 8.22L0 7L5.78 5.78L7 0Z" fill="white"/>
+      </svg>
+      Halo
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">services</a></li>
+      <li><a href="#">process</a></li>
+      <li><a href="#">team</a></li>
+      <li><a href="#">pricing</a></li>
+      <li><a href="#">FAQ</a></li>
+      <li><a href="#">contact</a></li>
+    </ul>
+
+    <button class="nav-cta">Get this template</button>
+  </nav>
+
+  <!-- ── HERO ────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="blob blob-accent"></div>
+    <div class="blob blob-main"></div>
+
+    <div class="hero-content">
+      <h1>Halo AI studio.</h1>
+      <p class="hero-sub">We develop custom AI solutions for innovative companies.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn-ghost">our services</a>
+        <a href="#" class="btn-ghost">contact us &nbsp;→</a>
+      </div>
+    </div>
+
+    <div class="framer-badge">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 0h16v8H4zm0 8h8l8 8H4zm0 8h8v8z"/></svg>
+      Made in Framer
+    </div>
+  </section>
+
+  <!-- ── ABOUT ───────────────────────────────────────────────────── -->
+  <section class="about">
+    <div class="about-watermark">halo</div>
+    <div class="about-inner">
+      <h2>
+        We're Halo. We develop custom
+        <span class="blue">AI solutions for innovative companies.</span>
+      </h2>
+      <a href="#" class="btn-pill">Get in touch</a>
+    </div>
+    <div class="about-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M4 0h16v8H4zm0 8h8l8 8H4zm0 8h8v8z"/></svg>
+      Made in Framer
+    </div>
+  </section>
+
+  <!-- ── SERVICES ─────────────────────────────────────────────────── -->
+  <section class="services">
+    <h2>What <span class="blue">we do</span></h2>
+
+    <div class="cards">
+
+      <!-- Card 1: Chatbot Development -->
+      <div class="card">
+        <div class="card-mockup">
+          <!-- User message -->
+          <div class="chat-row">
+            <div class="avatar">Y</div>
+            <div>
+              <div class="chat-meta">You &nbsp;·&nbsp; 0:35 AM</div>
+              <div class="bubble">Schedule a Google meeting with John for 3:45PM tomorrow.</div>
+            </div>
+          </div>
+          <!-- AI reply -->
+          <div class="chat-row">
+            <div class="avatar ai">AI</div>
+            <div>
+              <div class="chat-meta">AI Assistant &nbsp;·&nbsp; 0:15 AM</div>
+              <div class="bubble">I've successfully scheduled a Google meeting with John for 3:45PM tomorrow.</div>
+            </div>
+          </div>
+          <!-- Input bar -->
+          <div class="chat-input-bar">
+            <span>Message AI Assistant...</span>
+            <div class="send-btn">↑</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Chatbot Development</h3>
+          <p>We develop intelligent chatbots that leverage advanced NLP to elevate customer interactions and streamline your business processes.</p>
+        </div>
+      </div>
+
+      <!-- Card 2: Content Creation -->
+      <div class="card">
+        <div class="card-mockup">
+          <div class="imggen-status">Generating Image...</div>
+          <div class="imggen-canvas">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <div class="imggen-row">
+            <input class="imggen-field" placeholder="Generate an image of..." readonly />
+            <button class="imggen-gen-btn">Generate</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Content Creation</h3>
+          <p>Our content creation solutions effortlessly generate high-quality, engaging content according to your brand's guidelines to captivate your audience.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
