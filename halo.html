@@ -3,84 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Halo AI Studio</title>
+  <title>Halo — AI Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
+    /* ── BASE ──────────────────────────────────────────────────────── */
+    :root {
+      --bg:       #09090f;
+      --bg-card:  rgba(255,255,255,0.03);
+      --border:   rgba(255,255,255,0.07);
+      --blue:     #4d8fff;
+      --blue-glow:#1e5fff;
+      --text:     #ffffff;
+      --muted:    rgba(255,255,255,0.5);
+      --subtle:   rgba(255,255,255,0.08);
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      background: #08080f;
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
       font-family: 'Inter', sans-serif;
-      color: #fff;
+      color: var(--text);
       overflow-x: hidden;
     }
 
-    /* ── NAVBAR ───────────────────────────────────────────────────── */
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ───────────────────────────────────────────────────────── */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+      inset: 0 0 auto 0;
+      z-index: 999;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.9rem 2.5rem;
-      background: rgba(8, 8, 15, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 0 2.5rem;
+      height: 56px;
+      background: rgba(9,9,15,0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .nav-logo {
+    .logo {
       display: flex;
       align-items: center;
       gap: 0.45rem;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
-      color: #fff;
-      text-decoration: none;
     }
 
-    .nav-logo svg { width: 14px; height: 14px; }
+    .logo-star {
+      display: grid; place-items: center;
+      width: 18px; height: 18px;
+    }
 
     .nav-links {
       display: flex;
-      align-items: center;
-      gap: 1.75rem;
       list-style: none;
+      gap: 2rem;
     }
 
     .nav-links a {
-      color: rgba(255,255,255,0.55);
-      text-decoration: none;
-      font-size: 0.78rem;
+      font-size: 0.77rem;
+      color: var(--muted);
       font-weight: 400;
-      letter-spacing: 0.01em;
-      transition: color 0.2s;
+      transition: color .2s;
     }
 
-    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover { color: var(--text); }
 
-    .nav-cta {
-      padding: 0.45rem 1.1rem;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 7px;
-      background: transparent;
-      color: rgba(255,255,255,0.85);
-      font-size: 0.78rem;
+    .nav-btn {
       font-family: 'Inter', sans-serif;
+      font-size: 0.77rem;
       font-weight: 500;
+      color: rgba(255,255,255,0.8);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 7px;
+      padding: 0.42rem 1rem;
       cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
+      transition: background .2s, border-color .2s;
     }
 
-    .nav-cta:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.4);
+    .nav-btn:hover {
+      background: var(--subtle);
+      border-color: rgba(255,255,255,0.35);
     }
 
-    /* ── HERO ─────────────────────────────────────────────────────── */
+    /* ── HERO ──────────────────────────────────────────────────────── */
     .hero {
       position: relative;
       min-height: 100vh;
@@ -88,446 +103,870 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      padding: 7rem 2rem 5rem;
+      padding: 8rem 2rem 5rem;
     }
 
-    /* Blue glow blobs */
-    .blob {
+    .blob-wrap {
       position: absolute;
-      border-radius: 50%;
+      inset: 0;
+      display: grid;
+      place-items: center;
       pointer-events: none;
-      z-index: 0;
     }
 
-    .blob-main {
-      width: min(75vw, 720px);
-      height: min(75vw, 720px);
-      background: radial-gradient(circle at center,
-        rgba(30, 95, 255, 0.85) 0%,
-        rgba(25, 80, 240, 0.55) 25%,
-        rgba(15, 55, 200, 0.25) 55%,
-        transparent 75%
+    .blob {
+      width: min(78vw, 780px);
+      height: min(78vw, 780px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%,
+        rgba(50,115,255,0.95) 0%,
+        rgba(30, 85,240,0.65) 22%,
+        rgba(20, 60,210,0.35) 48%,
+        transparent 72%
       );
-      filter: blur(60px);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -52%);
+      filter: blur(72px);
+      animation: blobPulse 6s ease-in-out infinite alternate;
     }
 
-    .blob-accent {
-      width: min(45vw, 420px);
-      height: min(45vw, 420px);
-      background: radial-gradient(circle at center,
-        rgba(80, 140, 255, 0.55) 0%,
-        rgba(40, 100, 255, 0.25) 45%,
-        transparent 70%
+    .blob-inner {
+      position: absolute;
+      width: min(44vw, 440px);
+      height: min(44vw, 440px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 55% 45%,
+        rgba(100,165,255,0.7) 0%,
+        rgba(60,120,255,0.35) 40%,
+        transparent 68%
       );
-      filter: blur(50px);
-      top: 28%;
-      left: 38%;
-      transform: translate(-50%, -50%);
+      filter: blur(48px);
+      top: 15%;
+      left: 45%;
+      transform: translate(-50%,-50%);
+      animation: blobPulse 8s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes blobPulse {
+      from { transform: scale(1)   translate(0,0); }
+      to   { transform: scale(1.06) translate(2%,1%); }
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
       text-align: center;
-      max-width: 680px;
+      max-width: 640px;
     }
 
     .hero h1 {
-      font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
       font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      color: #fff;
+      letter-spacing: -0.035em;
+      line-height: 1.06;
       margin-bottom: 1.1rem;
     }
 
     .hero-sub {
       font-size: 0.9rem;
-      color: rgba(255,255,255,0.55);
-      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.65;
       margin-bottom: 2rem;
-      line-height: 1.6;
     }
 
     .hero-btns {
       display: flex;
       gap: 0.6rem;
       justify-content: center;
+      flex-wrap: wrap;
     }
 
-    .btn-ghost {
+    .btn-sm {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.55rem 1.2rem;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 7px;
-      color: rgba(255,255,255,0.85);
+      padding: 0.55rem 1.25rem;
+      background: var(--subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
       font-size: 0.82rem;
       font-family: 'Inter', sans-serif;
       font-weight: 500;
+      color: rgba(255,255,255,0.82);
       cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s;
+      transition: background .2s, border-color .2s;
     }
 
-    .btn-ghost:hover {
+    .btn-sm:hover {
       background: rgba(255,255,255,0.13);
-      border-color: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.18);
     }
 
-    /* Framer badge */
-    .framer-badge {
+    .framer-tag {
       position: absolute;
-      bottom: 1.5rem;
+      bottom: 1.75rem;
       right: 1.75rem;
       z-index: 5;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      background: rgba(20,20,30,0.85);
-      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.32rem 0.8rem;
+      background: rgba(15,15,24,0.9);
+      border: 1px solid var(--border);
       border-radius: 7px;
-      padding: 0.35rem 0.8rem;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.45);
+      font-size: 0.68rem;
+      color: var(--muted);
       backdrop-filter: blur(8px);
     }
 
-    .framer-badge svg { width: 12px; height: 12px; opacity: 0.6; }
-
-    /* ── ABOUT ────────────────────────────────────────────────────── */
+    /* ── ABOUT / MISSION ───────────────────────────────────────────── */
     .about {
       position: relative;
       overflow: hidden;
-      padding: 9rem 2.5rem 9rem;
+      padding: 10rem 2.5rem 10rem;
+    }
+
+    .wm {
+      position: absolute;
+      font-size: clamp(8rem,22vw,20rem);
+      font-weight: 900;
+      color: rgba(255,255,255,0.032);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      white-space: nowrap;
+      letter-spacing: -0.06em;
+      pointer-events: none;
+      user-select: none;
     }
 
     .about-inner {
-      max-width: 900px;
-      margin: 0 auto;
       position: relative;
       z-index: 2;
+      max-width: 860px;
+      margin: 0 auto;
     }
 
-    .about-watermark {
-      position: absolute;
-      font-size: clamp(9rem, 24vw, 21rem);
-      font-weight: 900;
-      color: rgba(255,255,255,0.035);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      white-space: nowrap;
-      letter-spacing: -0.06em;
-      line-height: 1;
-      user-select: none;
-      z-index: 1;
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.6rem;
+    }
+
+    .label-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
     }
 
     .about h2 {
-      font-size: clamp(1.7rem, 3.2vw, 2.75rem);
+      font-size: clamp(1.8rem, 3.4vw, 3rem);
       font-weight: 700;
-      line-height: 1.25;
+      line-height: 1.22;
       letter-spacing: -0.025em;
-      max-width: 700px;
+      max-width: 680px;
       margin-bottom: 2.5rem;
     }
 
-    .blue { color: #4d8fff; }
+    .blue { color: var(--blue); }
 
     .btn-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
       padding: 0.6rem 1.6rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
       border-radius: 999px;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-family: 'Inter', sans-serif;
       font-weight: 500;
+      color: rgba(255,255,255,0.8);
       cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s;
+      transition: background .2s;
     }
 
-    .btn-pill:hover { background: rgba(255,255,255,0.11); }
+    .btn-pill:hover { background: var(--subtle); }
 
-    /* About section framer badge (bottom right) */
-    .about-badge {
+    .framer-tag-r {
       position: absolute;
-      bottom: 2rem;
-      right: 2rem;
-      display: flex;
+      bottom: 2rem; right: 2.5rem;
+      display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      background: rgba(20,20,30,0.85);
-      border: 1px solid rgba(255,255,255,0.1);
+      gap: 0.4rem;
+      padding: 0.32rem 0.75rem;
+      background: rgba(15,15,24,0.9);
+      border: 1px solid var(--border);
       border-radius: 7px;
-      padding: 0.35rem 0.8rem;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.45);
+      font-size: 0.68rem;
+      color: var(--muted);
     }
 
-    /* ── SERVICES ─────────────────────────────────────────────────── */
+    /* ── SERVICES ──────────────────────────────────────────────────── */
     .services {
-      padding: 5rem 2.5rem 9rem;
-      max-width: 1100px;
+      padding: 5rem 2.5rem 8rem;
+      max-width: 1120px;
       margin: 0 auto;
     }
 
-    .services h2 {
-      font-size: clamp(2rem, 4.5vw, 3.75rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 2.5rem;
+    .section-head {
+      margin-bottom: 3rem;
     }
 
-    .cards {
+    .section-head h2 {
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
       gap: 1.25rem;
     }
 
     .card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
       overflow: hidden;
+      transition: border-color .25s;
     }
 
-    /* ── Chat mockup ── */
-    .card-mockup {
+    .card:hover { border-color: rgba(255,255,255,0.14); }
+
+    /* Chat UI mockup */
+    .mockup {
+      background: rgba(0,0,0,0.38);
+      border-bottom: 1px solid var(--border);
       padding: 1.5rem;
-      background: rgba(0,0,0,0.35);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      min-height: 210px;
+      min-height: 215px;
     }
 
-    .chat-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
+    .chat-row { display: flex; gap: 0.6rem; margin-bottom: 0.9rem; }
+
+    .av {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,0.1);
+      display: grid; place-items: center;
+      font-size: 0.58rem; font-weight: 700; color: rgba(255,255,255,0.65);
     }
 
-    .avatar {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.58rem; font-weight: 700;
-      flex-shrink: 0;
-      color: rgba(255,255,255,0.7);
+    .av.ai { background: linear-gradient(135deg,#1e50ff,#5b8fff); color:#fff; }
+
+    .chat-info { flex: 1; }
+
+    .chat-ts {
+      font-size: 0.61rem;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 0.28rem;
     }
-
-    .avatar.ai { background: linear-gradient(135deg, #1e55ff, #5b8fff); color: #fff; }
-
-    .chat-meta { font-size: 0.62rem; color: rgba(255,255,255,0.3); margin-bottom: 0.3rem; }
 
     .bubble {
+      display: inline-block;
       background: rgba(255,255,255,0.07);
       border-radius: 8px;
       padding: 0.45rem 0.7rem;
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.75);
+      font-size: 0.71rem;
+      color: rgba(255,255,255,0.72);
       line-height: 1.5;
-      max-width: 88%;
     }
 
-    .chat-input-bar {
-      display: flex;
-      align-items: center;
+    .chat-bar {
+      display: flex; align-items: center; gap: 0.45rem;
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.07);
       border-radius: 8px;
-      padding: 0.45rem 0.7rem;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
+      padding: 0.42rem 0.65rem;
+      margin-top: 0.6rem;
     }
 
-    .chat-input-bar span { font-size: 0.72rem; color: rgba(255,255,255,0.25); flex: 1; }
+    .chat-bar span { font-size: 0.7rem; color: rgba(255,255,255,0.22); flex: 1; }
 
-    .send-btn {
-      width: 22px; height: 22px;
-      border-radius: 5px;
-      background: rgba(255,255,255,0.09);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.5);
+    .send {
+      width: 20px; height: 20px; border-radius: 5px;
+      background: rgba(255,255,255,0.08);
+      display: grid; place-items: center;
+      font-size: 0.6rem; color: rgba(255,255,255,0.45);
     }
 
-    /* ── Image gen mockup ── */
-    .imggen-status {
-      font-size: 0.68rem;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 0.75rem;
-    }
+    /* Image gen mockup */
+    .gen-label { font-size: 0.68rem; color: rgba(255,255,255,0.32); margin-bottom: 0.7rem; }
 
-    .imggen-canvas {
+    .gen-canvas {
+      height: 96px;
       background: rgba(255,255,255,0.03);
-      border: 1px dashed rgba(255,255,255,0.1);
+      border: 1px dashed rgba(255,255,255,0.09);
       border-radius: 10px;
-      height: 95px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0.75rem;
+      display: grid; place-items: center;
+      margin-bottom: 0.7rem;
     }
 
-    .imggen-canvas svg { opacity: 0.2; }
+    .gen-row { display: flex; gap: 0.5rem; }
 
-    .imggen-row {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .imggen-field {
+    .gen-input {
       flex: 1;
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.07);
       border-radius: 7px;
       padding: 0.42rem 0.7rem;
       font-size: 0.7rem;
-      color: rgba(255,255,255,0.28);
+      color: rgba(255,255,255,0.25);
       font-family: 'Inter', sans-serif;
     }
 
-    .imggen-gen-btn {
+    .gen-btn {
       padding: 0.42rem 0.9rem;
       background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid var(--border);
       border-radius: 7px;
-      color: rgba(255,255,255,0.7);
       font-size: 0.7rem;
       font-family: 'Inter', sans-serif;
+      color: rgba(255,255,255,0.7);
       cursor: pointer;
       white-space: nowrap;
     }
 
-    /* ── Card body ── */
     .card-body { padding: 1.25rem 1.5rem 1.5rem; }
 
     .card-body h3 {
-      font-size: 1.05rem;
+      font-size: 1.05rem; font-weight: 600;
+      margin-bottom: 0.5rem; letter-spacing: -0.01em;
+    }
+
+    .card-body p { font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── PROCESS ───────────────────────────────────────────────────── */
+    .process {
+      padding: 6rem 2.5rem 8rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+
+    .step {
+      background: var(--bg);
+      padding: 2.25rem 1.75rem;
+      transition: background .25s;
+    }
+
+    .step:hover { background: rgba(255,255,255,0.025); }
+
+    .step-num {
+      font-size: 0.7rem;
       font-weight: 600;
-      color: #fff;
-      margin-bottom: 0.5rem;
+      color: var(--blue);
+      letter-spacing: 0.08em;
+      margin-bottom: 1.25rem;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
       letter-spacing: -0.01em;
     }
 
-    .card-body p {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.65;
+    .step p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── TEAM ──────────────────────────────────────────────────────── */
+    .team {
+      padding: 6rem 2.5rem 8rem;
+      max-width: 1120px;
+      margin: 0 auto;
     }
 
-    /* ── RESPONSIVE ───────────────────────────────────────────────── */
-    @media (max-width: 640px) {
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      transition: border-color .25s;
+    }
+
+    .team-card:hover { border-color: rgba(255,255,255,0.14); }
+
+    .avatar-wrap {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(30,80,255,0.5), rgba(80,130,255,0.3));
+      display: grid; place-items: center;
+      font-size: 1.5rem; font-weight: 700;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .team-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .team-role {
+      font-size: 0.75rem;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .team-bio { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PRICING ───────────────────────────────────────────────────── */
+    .pricing {
+      padding: 6rem 2.5rem 8rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .section-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+      max-width: 480px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: border-color .25s;
+    }
+
+    .price-card:hover { border-color: rgba(255,255,255,0.14); }
+
+    .price-card.featured {
+      background: rgba(30,80,255,0.1);
+      border-color: rgba(77,143,255,0.35);
+    }
+
+    .price-card.featured:hover { border-color: rgba(77,143,255,0.55); }
+
+    .price-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .price-card.featured .price-label { color: var(--blue); }
+
+    .price-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 0.25rem;
+    }
+
+    .price-amount .currency {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--muted);
+      align-self: flex-start;
+      margin-top: 0.4rem;
+    }
+
+    .price-amount .num {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .price-amount .period {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .price-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    .price-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      flex: 1;
+    }
+
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .check {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: rgba(77,143,255,0.15);
+      border: 1px solid rgba(77,143,255,0.3);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      font-size: 0.55rem;
+      color: var(--blue);
+    }
+
+    .price-card.featured .check {
+      background: rgba(77,143,255,0.25);
+      border-color: rgba(77,143,255,0.5);
+    }
+
+    .btn-price {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 9px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      background: var(--subtle);
+      border: 1px solid var(--border);
+      color: rgba(255,255,255,0.8);
+    }
+
+    .btn-price:hover { background: rgba(255,255,255,0.13); }
+
+    .btn-price.featured-btn {
+      background: var(--blue-glow);
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .btn-price.featured-btn:hover { background: #2563ff; }
+
+    /* ── FAQ ───────────────────────────────────────────────────────── */
+    .faq {
+      padding: 6rem 2.5rem 8rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .faq-list {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .faq-item { background: var(--bg); }
+
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 1.75rem;
+      cursor: pointer;
+      gap: 1rem;
+      transition: background .2s;
+    }
+
+    .faq-q:hover { background: rgba(255,255,255,0.025); }
+
+    .faq-q span {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .faq-icon {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--subtle);
+      border: 1px solid var(--border);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      transition: transform .25s;
+      color: var(--muted);
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .3s;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.7;
+      padding: 0 1.75rem;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 300px;
+      padding: 0 1.75rem 1.4rem;
+    }
+
+    /* ── CONTACT CTA ───────────────────────────────────────────────── */
+    .cta-section {
+      position: relative;
+      overflow: hidden;
+      padding: 8rem 2.5rem;
+      text-align: center;
+    }
+
+    .cta-blob {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+
+    .cta-glow {
+      width: min(60vw,580px);
+      height: min(60vw,580px);
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(30,80,255,0.55) 0%,
+        rgba(20,60,200,0.25) 45%,
+        transparent 70%
+      );
+      filter: blur(80px);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .cta-content h2 {
+      font-size: clamp(2rem,4vw,3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 1.1rem;
+    }
+
+    .cta-content p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .btn-blue {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.72rem 1.75rem;
+      background: var(--blue-glow);
+      border: none;
+      border-radius: 9px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+
+    .btn-blue:hover { background: #2563ff; transform: translateY(-1px); }
+
+    /* ── FOOTER ────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 2rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .footer-cols {
+      display: flex;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-col h4 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .footer-col a {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      transition: color .2s;
+    }
+
+    .footer-col a:hover { color: var(--text); }
+
+    /* ── DIVIDER ───────────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
       .nav-links { display: none; }
-      nav { padding: 0.9rem 1.25rem; }
-      .about { padding: 6rem 1.25rem; }
-      .services { padding: 3rem 1.25rem 6rem; }
-      .hero { padding: 6rem 1.25rem 4rem; }
+      nav { padding: 0 1.25rem; }
+      .about, .process, .team, .pricing, .faq, .services { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .cta-section { padding: 6rem 1.25rem; }
+      footer { padding: 2.5rem 1.25rem; }
+      .steps { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .steps { grid-template-columns: 1fr; }
+      .footer-cols { gap: 2rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── NAV ─────────────────────────────────────────────────────── -->
+  <!-- ═══════ NAV ═══════ -->
   <nav>
-    <a href="#" class="nav-logo">
-      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 0L8.22 5.78L14 7L8.22 8.22L7 14L5.78 8.22L0 7L5.78 5.78L7 0Z" fill="white"/>
+    <a href="#" class="logo">
+      <svg class="logo-star" viewBox="0 0 18 18" fill="none">
+        <path d="M9 0L10.7 7.3L18 9L10.7 10.7L9 18L7.3 10.7L0 9L7.3 7.3L9 0Z" fill="white"/>
       </svg>
       Halo
     </a>
 
     <ul class="nav-links">
-      <li><a href="#">services</a></li>
-      <li><a href="#">process</a></li>
-      <li><a href="#">team</a></li>
-      <li><a href="#">pricing</a></li>
-      <li><a href="#">FAQ</a></li>
-      <li><a href="#">contact</a></li>
+      <li><a href="#services">services</a></li>
+      <li><a href="#process">process</a></li>
+      <li><a href="#team">team</a></li>
+      <li><a href="#pricing">pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">contact</a></li>
     </ul>
 
-    <button class="nav-cta">Get this template</button>
+    <button class="nav-btn">Get this template</button>
   </nav>
 
-  <!-- ── HERO ────────────────────────────────────────────────────── -->
+  <!-- ═══════ HERO ═══════ -->
   <section class="hero">
-    <div class="blob blob-accent"></div>
-    <div class="blob blob-main"></div>
+    <div class="blob-wrap">
+      <div class="blob"></div>
+      <div class="blob-inner"></div>
+    </div>
 
     <div class="hero-content">
       <h1>Halo AI studio.</h1>
       <p class="hero-sub">We develop custom AI solutions for innovative companies.</p>
       <div class="hero-btns">
-        <a href="#" class="btn-ghost">our services</a>
-        <a href="#" class="btn-ghost">contact us &nbsp;→</a>
+        <a href="#services" class="btn-sm">our services</a>
+        <a href="#contact" class="btn-sm">contact us &thinsp;→</a>
       </div>
     </div>
 
-    <div class="framer-badge">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 0h16v8H4zm0 8h8l8 8H4zm0 8h8v8z"/></svg>
+    <div class="framer-tag">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M4 0h16v8H4zm0 8h8l8 8H4zm0 8h8v8z"/></svg>
       Made in Framer
     </div>
   </section>
 
-  <!-- ── ABOUT ───────────────────────────────────────────────────── -->
-  <section class="about">
-    <div class="about-watermark">halo</div>
+  <!-- ═══════ ABOUT ═══════ -->
+  <section class="about" id="about">
+    <div class="wm" aria-hidden="true">halo</div>
     <div class="about-inner">
+      <div class="label"><span class="label-dot"></span> About us</div>
       <h2>
         We're Halo. We develop custom
         <span class="blue">AI solutions for innovative companies.</span>
       </h2>
-      <a href="#" class="btn-pill">Get in touch</a>
+      <a href="#contact" class="btn-pill">Get in touch &thinsp;→</a>
     </div>
-    <div class="about-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M4 0h16v8H4zm0 8h8l8 8H4zm0 8h8v8z"/></svg>
+    <div class="framer-tag-r">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M4 0h16v8H4zm0 8h8l8 8H4zm0 8h8v8z"/></svg>
       Made in Framer
     </div>
   </section>
 
-  <!-- ── SERVICES ─────────────────────────────────────────────────── -->
-  <section class="services">
-    <h2>What <span class="blue">we do</span></h2>
+  <!-- ═══════ SERVICES ═══════ -->
+  <section class="services" id="services">
+    <div class="section-head">
+      <div class="label"><span class="label-dot"></span> Services</div>
+      <h2>What <span class="blue">we do</span></h2>
+    </div>
 
-    <div class="cards">
+    <div class="cards-grid">
 
-      <!-- Card 1: Chatbot Development -->
+      <!-- Chatbot card -->
       <div class="card">
-        <div class="card-mockup">
-          <!-- User message -->
+        <div class="mockup">
           <div class="chat-row">
-            <div class="avatar">Y</div>
-            <div>
-              <div class="chat-meta">You &nbsp;·&nbsp; 0:35 AM</div>
+            <div class="av">Y</div>
+            <div class="chat-info">
+              <div class="chat-ts">You &nbsp;·&nbsp; 0:35 AM</div>
               <div class="bubble">Schedule a Google meeting with John for 3:45PM tomorrow.</div>
             </div>
           </div>
-          <!-- AI reply -->
           <div class="chat-row">
-            <div class="avatar ai">AI</div>
-            <div>
-              <div class="chat-meta">AI Assistant &nbsp;·&nbsp; 0:15 AM</div>
+            <div class="av ai">AI</div>
+            <div class="chat-info">
+              <div class="chat-ts">AI Assistant &nbsp;·&nbsp; 0:15 AM</div>
               <div class="bubble">I've successfully scheduled a Google meeting with John for 3:45PM tomorrow.</div>
             </div>
           </div>
-          <!-- Input bar -->
-          <div class="chat-input-bar">
+          <div class="chat-bar">
             <span>Message AI Assistant...</span>
-            <div class="send-btn">↑</div>
+            <div class="send">↑</div>
           </div>
         </div>
         <div class="card-body">
@@ -536,20 +975,20 @@
         </div>
       </div>
 
-      <!-- Card 2: Content Creation -->
+      <!-- Image gen card -->
       <div class="card">
-        <div class="card-mockup">
-          <div class="imggen-status">Generating Image...</div>
-          <div class="imggen-canvas">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2">
+        <div class="mockup">
+          <div class="gen-label">Generating Image...</div>
+          <div class="gen-canvas">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2">
               <rect x="3" y="3" width="18" height="18" rx="2"/>
               <circle cx="8.5" cy="8.5" r="1.5"/>
               <polyline points="21 15 16 10 5 21"/>
             </svg>
           </div>
-          <div class="imggen-row">
-            <input class="imggen-field" placeholder="Generate an image of..." readonly />
-            <button class="imggen-gen-btn">Generate</button>
+          <div class="gen-row">
+            <input class="gen-input" placeholder="Generate an image of..." readonly />
+            <button class="gen-btn">Generate</button>
           </div>
         </div>
         <div class="card-body">
@@ -558,8 +997,343 @@
         </div>
       </div>
 
+      <!-- Data analysis card -->
+      <div class="card">
+        <div class="mockup" style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div class="gen-label">Analyzing data...</div>
+          <!-- Mini bar chart -->
+          <div style="display:flex;align-items:flex-end;gap:6px;height:80px;padding:0 0.5rem;">
+            <div style="flex:1;background:rgba(77,143,255,0.35);border-radius:4px 4px 0 0;height:45%;"></div>
+            <div style="flex:1;background:rgba(77,143,255,0.55);border-radius:4px 4px 0 0;height:70%;"></div>
+            <div style="flex:1;background:rgba(77,143,255,0.75);border-radius:4px 4px 0 0;height:55%;"></div>
+            <div style="flex:1;background:rgba(77,143,255,0.9);border-radius:4px 4px 0 0;height:100%;"></div>
+            <div style="flex:1;background:rgba(77,143,255,0.6);border-radius:4px 4px 0 0;height:80%;"></div>
+            <div style="flex:1;background:rgba(77,143,255,0.45);border-radius:4px 4px 0 0;height:60%;"></div>
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:0.5rem 0.7rem;">
+              <div style="font-size:0.6rem;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;">Accuracy</div>
+              <div style="font-size:0.9rem;font-weight:700;color:var(--blue);">98.4%</div>
+            </div>
+            <div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:0.5rem 0.7rem;">
+              <div style="font-size:0.6rem;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;">Speed</div>
+              <div style="font-size:0.9rem;font-weight:700;color:var(--blue);">12ms</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Data Analysis</h3>
+          <p>Our AI-powered analytics surface deep insights from your data, helping you make smarter decisions faster with real-time dashboards and predictions.</p>
+        </div>
+      </div>
+
+      <!-- Automation card -->
+      <div class="card">
+        <div class="mockup" style="display:flex;flex-direction:column;gap:0.65rem;">
+          <div class="gen-label">Workflow running...</div>
+          <!-- Flow nodes -->
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:28px;height:28px;border-radius:7px;background:rgba(77,143,255,0.2);border:1px solid rgba(77,143,255,0.35);display:grid;place-items:center;font-size:0.65rem;">⚡</div>
+              <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:6px;padding:0.38rem 0.65rem;font-size:0.68rem;color:rgba(255,255,255,0.6);">Trigger: New customer signup</div>
+              <div style="font-size:0.6rem;color:#4ade80;font-weight:600;">✓</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:28px;height:28px;border-radius:7px;background:rgba(77,143,255,0.2);border:1px solid rgba(77,143,255,0.35);display:grid;place-items:center;font-size:0.65rem;">🤖</div>
+              <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:6px;padding:0.38rem 0.65rem;font-size:0.68rem;color:rgba(255,255,255,0.6);">AI: Personalise onboarding</div>
+              <div style="font-size:0.6rem;color:#4ade80;font-weight:600;">✓</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:28px;height:28px;border-radius:7px;background:rgba(77,143,255,0.15);border:1px solid rgba(77,143,255,0.25);display:grid;place-items:center;font-size:0.65rem;">📧</div>
+              <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:6px;padding:0.38rem 0.65rem;font-size:0.68rem;color:rgba(255,255,255,0.4);">Send welcome email...</div>
+              <div style="width:14px;height:14px;border-radius:50%;border:2px solid rgba(77,143,255,0.5);border-top-color:var(--blue);animation:spin .8s linear infinite;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Workflow Automation</h3>
+          <p>Automate repetitive tasks and entire workflows with AI agents that act on your behalf — saving hours and eliminating human error.</p>
+        </div>
+      </div>
+
     </div>
   </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ PROCESS ═══════ -->
+  <section class="process" id="process">
+    <div class="section-head">
+      <div class="label"><span class="label-dot"></span> How we work</div>
+      <h2>Our <span class="blue">process</span></h2>
+      <p class="section-sub">A clear, collaborative process that moves fast and delivers real results at every stage.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Discovery</h3>
+        <p>We deep-dive into your business, goals, and challenges to understand exactly what AI can solve for you.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Strategy</h3>
+        <p>We map out the right AI approach, tools, and timeline — keeping things practical and outcome-focused.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Design</h3>
+        <p>We craft intuitive interfaces and seamless experiences around the AI models we build for you.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Development</h3>
+        <p>Our engineers build, test, and iterate — delivering robust AI systems that perform reliably at scale.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <h3>Launch</h3>
+        <p>We deploy, monitor, and support your solution so it keeps improving and creating value long-term.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ TEAM ═══════ -->
+  <section class="team" id="team">
+    <div class="section-head">
+      <div class="label"><span class="label-dot"></span> The team</div>
+      <h2>Meet the <span class="blue">people</span></h2>
+      <p class="section-sub">A small but mighty team of AI engineers, designers, and strategists obsessed with building things that work.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar-wrap">AJ</div>
+        <div class="team-name">Alex Johnson</div>
+        <div class="team-role">CEO & Co-Founder</div>
+        <div class="team-bio">Leads product vision and client strategy. Former ML engineer at Google with 10+ years in AI.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar-wrap">SM</div>
+        <div class="team-name">Sara Mitchell</div>
+        <div class="team-role">Head of AI Engineering</div>
+        <div class="team-bio">Builds the core models. PhD in NLP from MIT, previously at OpenAI and Anthropic.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar-wrap">RK</div>
+        <div class="team-name">Ryan Kim</div>
+        <div class="team-role">Lead Designer</div>
+        <div class="team-bio">Crafts the interfaces and experiences. Specialises in making complex AI feel simple and human.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar-wrap">LP</div>
+        <div class="team-name">Lena Park</div>
+        <div class="team-role">Growth & Partnerships</div>
+        <div class="team-bio">Connects Halo with innovative companies. Background in enterprise SaaS and AI consulting.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ PRICING ═══════ -->
+  <section class="pricing" id="pricing">
+    <div class="section-head">
+      <div class="label"><span class="label-dot"></span> Pricing</div>
+      <h2>Simple, <span class="blue">transparent</span> pricing</h2>
+      <p class="section-sub">No hidden fees. Choose the plan that fits your stage — upgrade or cancel anytime.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div>
+          <div class="price-label">Starter</div>
+          <div class="price-amount">
+            <span class="currency">$</span>
+            <span class="num">499</span>
+            <span class="period">/mo</span>
+          </div>
+          <p class="price-desc" style="margin-top:0.6rem;">Perfect for startups exploring AI for the first time.</p>
+        </div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> 1 AI integration</li>
+          <li><span class="check">✓</span> Up to 5,000 requests/mo</li>
+          <li><span class="check">✓</span> Email support</li>
+          <li><span class="check">✓</span> Basic analytics dashboard</li>
+        </ul>
+        <button class="btn-price">Get started</button>
+      </div>
+
+      <div class="price-card featured">
+        <div>
+          <div class="price-label">Pro &nbsp;⭐ Most Popular</div>
+          <div class="price-amount">
+            <span class="currency">$</span>
+            <span class="num">1,299</span>
+            <span class="period">/mo</span>
+          </div>
+          <p class="price-desc" style="margin-top:0.6rem;">For growing companies ready to go all-in on AI.</p>
+        </div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Up to 5 AI integrations</li>
+          <li><span class="check">✓</span> 50,000 requests/mo</li>
+          <li><span class="check">✓</span> Priority Slack support</li>
+          <li><span class="check">✓</span> Advanced analytics</li>
+          <li><span class="check">✓</span> Custom model fine-tuning</li>
+        </ul>
+        <button class="btn-price featured-btn">Get started</button>
+      </div>
+
+      <div class="price-card">
+        <div>
+          <div class="price-label">Enterprise</div>
+          <div class="price-amount">
+            <span class="num" style="font-size:2.4rem;">Custom</span>
+          </div>
+          <p class="price-desc" style="margin-top:0.6rem;">Tailored solutions for large organisations with complex needs.</p>
+        </div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Unlimited integrations</li>
+          <li><span class="check">✓</span> Unlimited requests</li>
+          <li><span class="check">✓</span> Dedicated account manager</li>
+          <li><span class="check">✓</span> SLA & compliance support</li>
+          <li><span class="check">✓</span> On-premise deployment</li>
+        </ul>
+        <button class="btn-price">Contact us</button>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════ FAQ ═══════ -->
+  <section class="faq" id="faq">
+    <div class="section-head">
+      <div class="label"><span class="label-dot"></span> FAQ</div>
+      <h2>Common <span class="blue">questions</span></h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>What kinds of AI solutions do you build?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">We build chatbots, content generation tools, data analysis pipelines, workflow automations, recommendation systems, and custom language model integrations — tailored to your specific business context.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>How long does a typical project take?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Most projects run between 4–12 weeks depending on scope. We start with a 1-week discovery sprint, then move into rapid build cycles. You'll see working prototypes within the first two weeks.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Do I need technical knowledge to work with you?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Not at all. We handle all the technical complexity. You bring the business problem and domain knowledge — we translate that into AI solutions and explain everything in plain language throughout.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Which AI models and frameworks do you use?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">We're model-agnostic. We work with OpenAI, Anthropic, Google, and open-source models depending on what's best for your use case, budget, and data privacy requirements.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Is my data kept private and secure?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Absolutely. We follow enterprise-grade security practices, sign NDAs before any project begins, and can deploy solutions on-premise or in your own cloud environment if required.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Do you offer ongoing support after launch?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Yes — all plans include post-launch monitoring and support. We offer retainer packages for ongoing improvements, model retraining, and feature additions as your needs evolve.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section class="cta-section" id="contact">
+    <div class="cta-blob"><div class="cta-glow"></div></div>
+    <div class="cta-content">
+      <div class="label" style="justify-content:center;margin-bottom:1.25rem;"><span class="label-dot"></span> Get in touch</div>
+      <h2>Ready to build something <span class="blue">incredible?</span></h2>
+      <p>Tell us about your project and we'll get back to you within 24 hours with ideas on how we can help.</p>
+      <a href="mailto:hello@haloai.studio" class="btn-blue">Start a conversation &thinsp;→</a>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <div class="divider"></div>
+  <footer>
+    <div>
+      <div class="footer-logo">
+        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+          <path d="M9 0L10.7 7.3L18 9L10.7 10.7L9 18L7.3 10.7L0 9L7.3 7.3L9 0Z" fill="white"/>
+        </svg>
+        Halo
+      </div>
+      <div class="footer-copy">© 2025 Halo AI Studio. All rights reserved.</div>
+    </div>
+
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Chatbots</a></li>
+          <li><a href="#">Content AI</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Automation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">hello@haloai.studio</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const isOpen = item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      // open clicked (unless it was already open)
+      if (!isOpen) item.classList.add('open');
+    }
+  </script>
+
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 
 </body>
 </html>
