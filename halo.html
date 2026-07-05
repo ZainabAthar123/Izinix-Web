@@ -462,25 +462,91 @@ footer { background: var(--bg-el); border-top: 1px solid var(--border); padding:
 .d2 { transition-delay: .2s; }
 .d3 { transition-delay: .3s; }
 
+/* ── LIQUID GLASS ── */
+.liquid-glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255,255,255,0.11);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+.liquid-glass-inner {
+  background: rgba(255,255,255,0.13);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+/* ── SERVICES V2 ── */
+.svc-new-grid {
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  gap: 20px; margin-top: 64px;
+}
+.svc-new-card {
+  grid-column: span 2;
+  border-radius: 1.25rem; padding: 24px;
+  min-height: 360px; display: flex; flex-direction: column;
+}
+.svc-new-card:nth-child(4) { grid-column: span 3; }
+.svc-new-card:nth-child(5) { grid-column: span 3; }
+.svc-new-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 14px;
+}
+.svc-new-icon {
+  width: 44px; height: 44px; border-radius: 0.75rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: white;
+}
+.svc-new-tags {
+  display: flex; flex-wrap: wrap; justify-content: flex-end;
+  gap: 6px; max-width: 70%;
+}
+.svc-tag {
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 9999px; padding: 4px 12px;
+  font-size: 11px; color: rgba(255,255,255,0.88);
+  white-space: nowrap; font-family: var(--font-b);
+}
+.svc-new-spacer { flex: 1; min-height: 20px; }
+.svc-new-bottom { margin-top: 20px; }
+.svc-new-title {
+  font-family: var(--font-h); font-style: italic; color: white;
+  font-size: clamp(28px,3vw,42px); letter-spacing: -0.03em;
+  line-height: 1; font-weight: 700; margin-bottom: 10px;
+}
+.svc-new-body {
+  font-size: 13.5px; color: rgba(255,255,255,0.82);
+  font-family: var(--font-b); font-weight: 300;
+  line-height: 1.5; max-width: 32ch;
+}
+.svc-new-actions {
+  display: flex; align-items: center;
+  justify-content: flex-end; gap: 8px; margin-top: 18px;
+}
+.svc-action-btn {
+  width: 38px; height: 38px; border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.75); cursor: pointer;
+  transition: color .2s, background .2s;
+}
+.svc-action-btn:hover { color: white; background: rgba(255,255,255,0.1); }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 960px) {
-  .about-grid, .contact-grid { grid-template-columns: 1fr; }
-  .services-grid { grid-template-columns: 1fr 1fr; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
-  .footer-top { grid-template-columns: 1fr 1fr; }
-  .process-steps { grid-template-columns: 1fr; }
+  .svc-new-grid { grid-template-columns: repeat(2,1fr); }
+  .svc-new-card { grid-column: span 1 !important; }
   .nav-links { display: none; }
-  .form-row { grid-template-columns: 1fr; }
+  nav { padding: 20px 32px; }
 }
 @media (max-width: 600px) {
-  nav { padding: 0 20px; }
   .container { padding: 0 20px; }
-  footer { padding: 48px 20px 24px; }
   .section { padding: 80px 0; }
-  .services-grid { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr; gap: 32px; }
-  .hero h1 { font-size: 46px; }
+  .svc-new-grid { grid-template-columns: 1fr; }
+  nav { padding: 16px 20px; }
 }
 </style>
 </head>
@@ -529,30 +595,6 @@ footer { background: var(--bg-el); border-top: 1px solid var(--border); padding:
   </div>
 </section>
 
-<!-- ── ABOUT ── -->
-<section class="about section" id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-visual reveal">
-        <img src="images/HckOd2xJ67RzaG2caZs2ur1UHA.png" alt="About Halo">
-        <div class="about-visual-overlay"></div>
-      </div>
-      <div class="about-content reveal d1">
-        <span class="label">About</span>
-        <h2 class="heading">We're Halo. We develop custom AI solutions for innovative companies.</h2>
-        <p class="subtext">Our services offered consist of chatbot development, content creation, workflow automations, LLM development, and AI consulting.</p>
-        <div class="about-chips">
-          <span class="chip">Chatbot Development</span>
-          <span class="chip">Content Creation</span>
-          <span class="chip">Workflow Automations</span>
-          <span class="chip">LLM Development</span>
-          <span class="chip">AI Consulting</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── SERVICES ── -->
 <section class="section" id="services">
   <div class="container">
@@ -561,495 +603,152 @@ footer { background: var(--bg-el); border-top: 1px solid var(--border); padding:
       <h2 class="heading">What we offer</h2>
       <p class="subtext">Custom AI solutions tailored to your company's unique needs and challenges.</p>
     </div>
-    <div class="services-grid reveal">
-      <div class="svc-card">
-        <div class="svc-visual">
-          <img src="images/DbqxOOL7wdsfuIM8R12g6g9TeU.png" alt="Chatbot Development">
+
+    <div class="svc-new-grid">
+
+      <!-- Card 1: AI Scenery -->
+      <div class="svc-new-card liquid-glass reveal d1">
+        <div class="svc-new-top">
+          <div class="svc-new-icon liquid-glass-inner">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21H5Zm1-4h12l-3.75-5-3 4L9 13l-3 4Z"/></svg>
+          </div>
+          <div class="svc-new-tags">
+            <span class="svc-tag">Natural Context</span>
+            <span class="svc-tag">Photo Realism</span>
+            <span class="svc-tag">Infinite Settings</span>
+            <span class="svc-tag">Eco-Vibe</span>
+          </div>
         </div>
-        <h3>Chatbot Development</h3>
-        <p>We develop intelligent chatbots that leverage advanced NLP to elevate customer interactions and streamline your business processes.</p>
-      </div>
-      <div class="svc-card">
-        <div class="svc-visual">
-          <img src="images/ElXA9BRDlk1EUYX76fVdPRGVs.png" alt="Content Creation">
+        <div class="svc-new-spacer"></div>
+        <div class="svc-new-bottom">
+          <h3 class="svc-new-title">AI Scenery</h3>
+          <p class="svc-new-body">AI analyzes your product to create indistinguishable natural environments — from Icelandic cliffs to misty forests.</p>
+          <div class="svc-new-actions">
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            </button>
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </button>
+          </div>
         </div>
-        <h3>Content Creation</h3>
-        <p>Our content creation solutions effortlessly generate high-quality, engaging content according to your brand's guidelines to captivate your audience.</p>
       </div>
-      <div class="svc-card">
-        <div class="svc-visual">
-          <img src="images/FCIhg4w8Oic6PzzMBeFQQ09s200.png" alt="Workflow Automations">
+
+      <!-- Card 2: Batch Production -->
+      <div class="svc-new-card liquid-glass reveal d2">
+        <div class="svc-new-top">
+          <div class="svc-new-icon liquid-glass-inner">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M4 6.47 5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.89-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4Z"/></svg>
+          </div>
+          <div class="svc-new-tags">
+            <span class="svc-tag">Scale Fast</span>
+            <span class="svc-tag">Visual Consistency</span>
+            <span class="svc-tag">Time Saver</span>
+            <span class="svc-tag">Ready to Post</span>
+          </div>
         </div>
-        <h3>Workflow Automations</h3>
-        <p>We automate your workflows to streamline repetitive tasks, enhance efficiency, save time, and eliminate errors.</p>
-      </div>
-      <div class="svc-card">
-        <div class="svc-visual">
-          <img src="images/UoxNo4jnBlSZBxPJAF4qftgrYz4.png" alt="LLM Development">
+        <div class="svc-new-spacer"></div>
+        <div class="svc-new-bottom">
+          <h3 class="svc-new-title">Batch Production</h3>
+          <p class="svc-new-body">Style your entire product line in minutes. Create a unified visual identity for catalogues and social media without weeks of retouching.</p>
+          <div class="svc-new-actions">
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            </button>
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </button>
+          </div>
         </div>
-        <h3>LLM Development</h3>
-        <p>We develop Large Language Models that transform how your company interacts with data and customers.</p>
       </div>
-      <div class="svc-card">
-        <div class="svc-visual">
-          <img src="images/tgAdHwxLRfm8Xt4ZgpJr2sZaPxY.png" alt="AI Consulting">
+
+      <!-- Card 3: Smart Lighting -->
+      <div class="svc-new-card liquid-glass reveal d3">
+        <div class="svc-new-top">
+          <div class="svc-new-icon liquid-glass-inner">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1Zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7Z"/></svg>
+          </div>
+          <div class="svc-new-tags">
+            <span class="svc-tag">Ray Tracing</span>
+            <span class="svc-tag">Physical Shadows</span>
+            <span class="svc-tag">Studio Quality</span>
+            <span class="svc-tag">Sunlight Sync</span>
+          </div>
         </div>
-        <h3>AI Consulting</h3>
-        <p>Our experts provide strategic guidance, enabling your business to implement AI solutions that drive transformative growth.</p>
+        <div class="svc-new-spacer"></div>
+        <div class="svc-new-bottom">
+          <h3 class="svc-new-title">Smart Lighting</h3>
+          <p class="svc-new-body">Automatic lighting and material adjustment. Achieve flawless integration with realistic shadows and sunlight.</p>
+          <div class="svc-new-actions">
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            </button>
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="svc-card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-        <p class="subtext" style="max-width:220px;">Ready to transform your business with AI?</p>
-        <a href="#contact" class="btn-primary" style="margin-top:24px;">Get in touch →</a>
+
+      <!-- Card 4: Shadow Control -->
+      <div class="svc-new-card liquid-glass reveal d1">
+        <div class="svc-new-top">
+          <div class="svc-new-icon liquid-glass-inner">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18V4c4.41 0 8 3.59 8 8s-3.59 8-8 8z"/></svg>
+          </div>
+          <div class="svc-new-tags">
+            <span class="svc-tag">Ray Tracing</span>
+            <span class="svc-tag">Physical Shadows</span>
+            <span class="svc-tag">Studio Quality</span>
+            <span class="svc-tag">Sunlight Sync</span>
+          </div>
+        </div>
+        <div class="svc-new-spacer"></div>
+        <div class="svc-new-bottom">
+          <h3 class="svc-new-title">Shadow Control</h3>
+          <p class="svc-new-body">Precision shadow mapping with real-time adjustments. Cast natural or stylized shadows onto any surface with full depth control.</p>
+          <div class="svc-new-actions">
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            </button>
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
+
+      <!-- Card 5: Color Grading -->
+      <div class="svc-new-card liquid-glass reveal d2">
+        <div class="svc-new-top">
+          <div class="svc-new-icon liquid-glass-inner">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          </div>
+          <div class="svc-new-tags">
+            <span class="svc-tag">Ray Tracing</span>
+            <span class="svc-tag">Physical Shadows</span>
+            <span class="svc-tag">Studio Quality</span>
+            <span class="svc-tag">Sunlight Sync</span>
+          </div>
+        </div>
+        <div class="svc-new-spacer"></div>
+        <div class="svc-new-bottom">
+          <h3 class="svc-new-title">Color Grading</h3>
+          <p class="svc-new-body">AI-driven color correction matched to your brand palette. Maintain consistent, striking tones across your entire product library.</p>
+          <div class="svc-new-actions">
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            </button>
+            <button class="svc-action-btn liquid-glass-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
-
-<!-- ── PROCESS ── -->
-<section class="process section" id="process">
-  <div class="container">
-    <div class="reveal">
-      <span class="label">Process</span>
-      <h2 class="heading">The process</h2>
-      <p class="subtext">A clear, proven three-step approach to delivering AI that actually works.</p>
-    </div>
-    <div class="process-steps">
-      <div class="process-step reveal d1" data-num="01 — Analyse">
-        <div class="process-visual">
-          <img src="images/fV5eKM828WIq0uUi1QspK4cUrEw.png" alt="Analyse">
-        </div>
-        <h3>Analyse</h3>
-        <p>We start with a thorough analysis of your current workflows to see how AI could improve your processes.</p>
-      </div>
-      <div class="process-step reveal d2" data-num="02 — Build">
-        <div class="process-visual">
-          <img src="images/eIDifEepcllMTSnFfdMm68QyzI.png" alt="Build">
-        </div>
-        <h3>Build & Implement</h3>
-        <p>Then, our developers will start crafting custom AI-solutions for your company, continuously prioritising quality and safety.</p>
-      </div>
-      <div class="process-step reveal d3" data-num="03 — Maintain">
-        <div class="process-visual">
-          <img src="images/liyIkoI7O34iCSvLdx9KxCC5cBs.png" alt="Maintain">
-        </div>
-        <h3>Maintain & improve</h3>
-        <p>After deployment, our team will keep working hard by providing support and continuously improving the implemented solutions.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── STATS ── -->
-<section class="section">
-  <div class="container">
-    <div class="reveal">
-      <span class="label">Impact</span>
-      <h2 class="heading">Our statistics</h2>
-    </div>
-    <div class="stats-grid reveal">
-      <div class="stat-card">
-        <h2>93</h2>
-        <p>Projects completed<br>We've successfully completed 93 top-tier projects.</p>
-      </div>
-      <div class="stat-card">
-        <h2>100%</h2>
-        <p>Satisfied customers<br>We ensure a 100% satisfaction level for our clients.</p>
-      </div>
-      <div class="stat-card">
-        <h2>3h</h2>
-        <p>Hours saved per day<br>Our solutions save clients an average of 3 hours of work per day.</p>
-      </div>
-      <div class="stat-card">
-        <h2>$80k</h2>
-        <p>Cost saved per month<br>Our solutions save clients an average of $80,000 per month.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── TEAM ── -->
-<section class="team-section section" id="team">
-  <div class="container">
-    <div class="reveal">
-      <span class="label">Team</span>
-      <h2 class="heading">Meet our team</h2>
-      <p class="subtext">A tight-knit crew of AI experts, designers, and engineers who care deeply about the work.</p>
-    </div>
-  </div>
-  <div class="ticker-wrap" style="margin-top:56px;">
-    <div class="ticker" id="teamTicker">
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/NS0MjC73BwIBZdXwTNCgKOj2H4.png" alt="Dave Jones" onerror="this.parentNode.textContent='👨‍💻'"></div>
-        <h4>Dave Jones</h4><span>Developer</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/rXlZWevHMULDY8GRL4RNJfD02dQ.png" alt="Emily Branson" onerror="this.parentNode.textContent='👩‍💼'"></div>
-        <h4>Emily Branson</h4><span>CEO</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/FuLkfY03g6UTvyUgiykCksQ60.png" alt="Jason Davis" onerror="this.parentNode.textContent='👨‍💻'"></div>
-        <h4>Jason Davis</h4><span>Developer</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/ZSaQbJuFS42W7zu7FI7QlZsxu58.png" alt="Maria Wilson" onerror="this.parentNode.textContent='👩‍💼'"></div>
-        <h4>Maria Wilson</h4><span>COO</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/fmoq8UDKlfUrXummW5zaYwxCAZg.png" alt="William Bird" onerror="this.parentNode.textContent='👨‍🔧'"></div>
-        <h4>William Bird</h4><span>CTO</span>
-      </div>
-      <!-- dupe for seamless loop -->
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/NS0MjC73BwIBZdXwTNCgKOj2H4.png" alt="Dave Jones" onerror="this.parentNode.textContent='👨‍💻'"></div>
-        <h4>Dave Jones</h4><span>Developer</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/rXlZWevHMULDY8GRL4RNJfD02dQ.png" alt="Emily Branson" onerror="this.parentNode.textContent='👩‍💼'"></div>
-        <h4>Emily Branson</h4><span>CEO</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/FuLkfY03g6UTvyUgiykCksQ60.png" alt="Jason Davis" onerror="this.parentNode.textContent='👨‍💻'"></div>
-        <h4>Jason Davis</h4><span>Developer</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/ZSaQbJuFS42W7zu7FI7QlZsxu58.png" alt="Maria Wilson" onerror="this.parentNode.textContent='👩‍💼'"></div>
-        <h4>Maria Wilson</h4><span>COO</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="images/fmoq8UDKlfUrXummW5zaYwxCAZg.png" alt="William Bird" onerror="this.parentNode.textContent='👨‍🔧'"></div>
-        <h4>William Bird</h4><span>CTO</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PRICING ── -->
-<section class="pricing section" id="pricing">
-  <div class="container">
-    <div class="reveal">
-      <span class="label">Subscriptions</span>
-      <h2 class="heading">Three different subscriptions to match your companies' needs.</h2>
-      <div class="pricing-toggle">
-        <span>Monthly</span>
-        <label class="toggle-pill">
-          <input type="checkbox" id="billingToggle" onchange="toggleBilling()">
-          <span class="pill"></span>
-          <span class="knob"></span>
-        </label>
-        <span>Annually</span>
-        <span class="save-badge">-20%</span>
-      </div>
-    </div>
-    <div class="pricing-grid">
-      <div class="price-card reveal d1">
-        <span class="plan-name">Basic</span>
-        <div class="plan-price"><sup>€</sup><span class="price-val" data-monthly="750" data-annual="600">750</span></div>
-        <div class="plan-period">/month</div>
-        <div class="plan-devs">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          1 developer
-        </div>
-        <div class="plan-div"></div>
-        <ul class="plan-features">
-          <li>Basic chatbots &amp; LLMs</li>
-          <li>3 workflow automations</li>
-          <li>5 content creation requests</li>
-          <li>Cancel &amp; pause anytime</li>
-        </ul>
-        <button class="plan-btn">Choose this plan</button>
-      </div>
-      <div class="price-card featured reveal d2">
-        <div class="popular-tag">Most popular</div>
-        <span class="plan-name">Professional</span>
-        <div class="plan-price"><sup>€</sup><span class="price-val" data-monthly="1500" data-annual="1200">1.500</span></div>
-        <div class="plan-period">/month</div>
-        <div class="plan-devs">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          2 developers
-        </div>
-        <div class="plan-div"></div>
-        <ul class="plan-features">
-          <li>Custom chatbots &amp; LLMs</li>
-          <li>10 workflow automations</li>
-          <li>20 content creation requests</li>
-          <li>Cancel &amp; pause anytime</li>
-        </ul>
-        <button class="plan-btn">Choose this plan</button>
-      </div>
-      <div class="price-card reveal d3">
-        <span class="plan-name">Enterprise</span>
-        <div class="plan-price"><sup>€</sup><span class="price-val" data-monthly="3000" data-annual="2400">3.000</span></div>
-        <div class="plan-period">/month</div>
-        <div class="plan-devs">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          3 developers
-        </div>
-        <div class="plan-div"></div>
-        <ul class="plan-features">
-          <li>Custom chatbots &amp; LLMs</li>
-          <li>Unlimited workflow automations</li>
-          <li>Unlimited content creation requests</li>
-          <li>Cancel &amp; pause anytime</li>
-        </ul>
-        <button class="plan-btn">Choose this plan</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── REVIEWS ── -->
-<section class="section" id="reviews" style="overflow:hidden;">
-  <div class="container">
-    <div class="reveal">
-      <span class="label">Reviews</span>
-      <h2 class="heading">What our clients say</h2>
-    </div>
-  </div>
-  <div class="reviews-wrap">
-    <div class="reviews-row">
-      <div class="review-ticker" id="rev1">
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"Halo's AI solutions save us a ton of money on a monthly basis, highly recommend working with them"</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/tbEP47AHjLgpXqLCE4KFSaVoqM.png" alt="David Williams" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">David Williams</div><div class="rev-role">CTO - Wave</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"Halo has significantly enhanced our efficiency, resulting in the completion of more work every day"</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/g4kry3jwbz453lTYar8A9urtFU.png" alt="Jessica Miller" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">Jessica Miller</div><div class="rev-role">CCO - Kama Inc.</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"Highly recommended Halo's AI consultancy for any data-intensive business"</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/QjIomPBIRm6WjTT6cigOGykqtTc.png" alt="Michael Anderson" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">Michael Anderson</div><div class="rev-role">CEO - Verdant Inc.</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"Halo is a game-changer for any business looking to leverage AI effectively"</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/tKYULxCnQMpNOdbs5SSCxRzrw6I.png" alt="Olivia Johnson" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">Olivia Johnson</div><div class="rev-role">CEO - Nara Innovations</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="reviews-row">
-      <div class="review-ticker rev" id="rev2">
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"The team at Halo transformed our customer support pipeline. Response times dropped by 70% overnight."</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/tKYULxCnQMpNOdbs5SSCxRzrw6I.png" alt="Olivia Johnson" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">Olivia Johnson</div><div class="rev-role">CEO - Nara Innovations</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"Working with Halo felt effortless. They understood our needs immediately and delivered beyond expectations."</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/QjIomPBIRm6WjTT6cigOGykqtTc.png" alt="Michael Anderson" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">Michael Anderson</div><div class="rev-role">CEO - Verdant Inc.</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"Our content output tripled with Halo's AI solutions. The quality is indistinguishable from human writers."</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/g4kry3jwbz453lTYar8A9urtFU.png" alt="Jessica Miller" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">Jessica Miller</div><div class="rev-role">CCO - Kama Inc.</div></div>
-          </div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-stars">★★★★★</div>
-          <p class="rev-quote">"Halo's subscription model makes enterprise AI accessible. Best ROI decision we made this year."</p>
-          <div class="rev-author">
-            <div class="rev-avatar"><img src="images/tbEP47AHjLgpXqLCE4KFSaVoqM.png" alt="David Williams" onerror="this.parentNode.textContent='👤'"></div>
-            <div><div class="rev-name">David Williams</div><div class="rev-role">CTO - Wave</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FAQ ── -->
-<section class="faq section" id="faq">
-  <div class="container">
-    <div class="reveal">
-      <span class="label">FAQ</span>
-      <h2 class="heading">We've gone ahead and answered some of the questions you might have.</h2>
-    </div>
-    <div class="faq-list reveal">
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
-          Is my company a good fit for Halo?
-          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Halo works with innovative companies of all sizes that want to leverage AI to improve their operations. If you have repetitive workflows, customer interactions, or content needs, we can almost certainly help — regardless of industry.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
-          Are your solutions secure?
-          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Security is a core priority. All our AI solutions are built with enterprise-grade security practices, data encryption, and strict access controls. We never share client data and can sign NDAs and DPAs as required.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
-          Do you offer continuous support?
-          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Yes — all our subscription plans include ongoing support and continuous improvement. Our team monitors your AI solutions post-deployment and proactively suggests optimizations as your business evolves.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
-          How long does it take to implement my requests?
-          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Timeline varies by complexity. Simple automations and chatbots can be live within 1–2 weeks. More complex LLM builds or full workflow overhauls typically take 4–8 weeks. We always provide a clear estimate before starting.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
-          Can I get more developers than 3?
-          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Yes. If your project scope requires a larger team, reach out via the contact form and we'll put together a custom Enterprise+ plan tailored to your needs.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
-          Can I cancel my subscription at any time?
-          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="faq-answer">Absolutely. All our plans are cancel-anytime with no lock-in. You can also pause your subscription for up to 60 days if you need to put work on hold temporarily.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACT ── -->
-<section class="section" id="contact">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-info reveal">
-        <span class="label">Contact</span>
-        <h2 class="heading">Let's talk!</h2>
-        <p class="subtext">Ready to transform your business with AI? Get in touch and we'll respond within one business day.</p>
-        <div class="contact-detail">
-          <div class="contact-icon">📍</div>
-          <div>
-            <h5>Office</h5>
-            <p>Keizersgracht 520, 1017EK<br>The Netherlands</p>
-          </div>
-        </div>
-        <div class="contact-detail">
-          <div class="contact-icon">✉️</div>
-          <div>
-            <h5>Email</h5>
-            <p>info@halo.com</p>
-          </div>
-        </div>
-        <div class="contact-detail">
-          <div class="contact-icon">🕐</div>
-          <div>
-            <h5>Local time</h5>
-            <p id="localTime">Loading...</p>
-          </div>
-        </div>
-      </div>
-      <div class="contact-form reveal d2">
-        <div class="form-row">
-          <div class="form-group">
-            <label>FIRST NAME</label>
-            <input type="text" placeholder="Jane">
-          </div>
-          <div class="form-group">
-            <label>LAST NAME</label>
-            <input type="text" placeholder="Smith">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>EMAIL ADDRESS</label>
-          <input type="email" placeholder="jane@company.com">
-        </div>
-        <div class="form-group">
-          <label>COMPANY</label>
-          <input type="text" placeholder="Your company name">
-        </div>
-        <div class="form-group">
-          <label>SERVICE</label>
-          <select>
-            <option value="">Select a service...</option>
-            <option>Chatbot Development</option>
-            <option>Content Creation</option>
-            <option>Workflow Automations</option>
-            <option>LLM Development</option>
-            <option>AI Consulting</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>MESSAGE</label>
-          <textarea placeholder="Tell us about your project..."></textarea>
-        </div>
-        <button class="form-submit">Get in touch →</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <img src="images/CSr01inYFSNcBiRsiHyP21guEk.png" alt="Halo">
-      <p>AI-powered development studio building custom AI solutions for innovative companies worldwide.</p>
-      <div class="footer-newsletter">
-        <input type="email" placeholder="your@email.com">
-        <button>Get our newsletter</button>
-      </div>
-      <p style="margin-top:12px;font-size:12px;">Subscribe to get the latest updates on AI into your inbox every month.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Services</h5>
-      <ul>
-        <li><a href="#services">Chatbot Development</a></li>
-        <li><a href="#services">Content Creation</a></li>
-        <li><a href="#services">Workflow Automations</a></li>
-        <li><a href="#services">LLM Development</a></li>
-        <li><a href="#services">AI Consulting</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Company</h5>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#process">Process</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Legal</h5>
-      <ul>
-        <li><a href="#">Terms &amp; conditions</a></li>
-        <li><a href="#">Privacy policy</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 Halo. All rights reserved.</span>
-    <span>Keizersgracht 520, 1017EK Amsterdam, The Netherlands</span>
-  </div>
-</footer>
 
 <!-- ── FRAMER BADGE ── -->
 <div class="framer-badge">
@@ -1058,47 +757,10 @@ footer { background: var(--bg-el); border-top: 1px solid var(--border); padding:
 </div>
 
 <script>
-// ── Scroll reveal
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
 }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-// ── Clone tickers for seamless loop
-['rev1','rev2'].forEach(id => {
-  const t = document.getElementById(id);
-  if (!t) return;
-  Array.from(t.children).forEach(c => t.appendChild(c.cloneNode(true)));
-});
-
-// ── FAQ accordion
-function toggleFaq(btn) {
-  const item = btn.closest('.faq-item');
-  const open = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-  if (!open) item.classList.add('open');
-}
-
-// ── Billing toggle
-function toggleBilling() {
-  const annual = document.getElementById('billingToggle').checked;
-  document.querySelectorAll('.price-val').forEach(el => {
-    const val = annual ? el.dataset.annual : el.dataset.monthly;
-    const num = parseInt(val);
-    el.textContent = num >= 1000
-      ? num.toLocaleString('de-DE')
-      : val;
-  });
-}
-
-// ── Amsterdam local time
-function updateTime() {
-  const t = new Date().toLocaleTimeString('en-US', {timeZone:'Europe/Amsterdam', hour:'2-digit', minute:'2-digit', hour12:true});
-  const el = document.getElementById('localTime');
-  if (el) el.textContent = t + ' (Amsterdam)';
-}
-updateTime();
-setInterval(updateTime, 30000);
 </script>
 </body>
 </html>
