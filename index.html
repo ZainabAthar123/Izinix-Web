@@ -1,556 +1,486 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Space Voyage</title>
+  <title>IZINIX — AI Automation Agency · Design, Build, Automate</title>
+  <meta name="description" content="IZINIX is a full-stack creative and AI automation agency. Web development, UI/UX design, content, social media, and AI systems that work while you sleep." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2305070A'/%3E%3Ccircle cx='50' cy='50' r='26' fill='%23FF5A1F'/%3E%3C/svg%3E" />
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            heading: ['Instrument Serif', 'serif'],
-            body:    ['Barlow', 'sans-serif'],
-          },
-          borderRadius: {
-            DEFAULT: '9999px',
-          },
-        },
-      },
-    };
-  </script>
-
-  <!-- React 18 -->
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
-    integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
-    integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
-    crossorigin="anonymous"></script>
-
-  <!-- Babel standalone -->
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
-    integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
-    crossorigin="anonymous"></script>
-
-  <!-- Framer Motion -->
-  <script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
-  <script>window.Motion = window.FramerMotion;</script>
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: #000; }
-
-    /* ── Liquid Glass — subtle ─────────────────────────────────────────────── */
-    .liquid-glass {
-      background: rgba(255,255,255,0.01);
-      background-blend-mode: luminosity;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: none;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
-      position: relative;
-      overflow: hidden;
-    }
-    .liquid-glass::before {
-      content: "";
-      position: absolute; inset: 0;
-      border-radius: inherit;
-      padding: 1.4px;
-      background: linear-gradient(180deg,
-        rgba(255,255,255,0.45) 0%,
-        rgba(255,255,255,0.15) 20%,
-        rgba(255,255,255,0)    40%,
-        rgba(255,255,255,0)    60%,
-        rgba(255,255,255,0.15) 80%,
-        rgba(255,255,255,0.45) 100%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    /* ── Liquid Glass — strong ─────────────────────────────────────────────── */
-    .liquid-glass-strong {
-      background: rgba(255,255,255,0.01);
-      background-blend-mode: luminosity;
-      backdrop-filter: blur(50px);
-      -webkit-backdrop-filter: blur(50px);
-      border: none;
-      box-shadow: 4px 4px 4px rgba(0,0,0,0.05), inset 0 1px 1px rgba(255,255,255,0.15);
-      position: relative;
-      overflow: hidden;
-    }
-    .liquid-glass-strong::before {
-      content: "";
-      position: absolute; inset: 0;
-      border-radius: inherit;
-      padding: 1.4px;
-      background: linear-gradient(180deg,
-        rgba(255,255,255,0.5) 0%,
-        rgba(255,255,255,0.2) 20%,
-        rgba(255,255,255,0)   40%,
-        rgba(255,255,255,0)   60%,
-        rgba(255,255,255,0.2) 80%,
-        rgba(255,255,255,0.5) 100%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body>
-  <div id="root"></div>
+<body data-page="home">
 
-  <script type="text/babel">
-    /* ── Suppress benign Framer Motion dev list-key warnings ─────────────── */
-    const _origErr = console.error.bind(console);
-    console.error = (...args) => {
-      if (typeof args[0] === 'string' && (
-        args[0].includes('Each child in a list') ||
-        args[0].includes('unique "key"')
-      )) return;
-      _origErr(...args);
-    };
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    const { useRef, useEffect, useState } = React;
-    const { motion } = Motion;
+  <!-- Loader curtain -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-mark">
+      <span style="animation-delay:.05s">I</span><span style="animation-delay:.1s">Z</span><span style="animation-delay:.15s">I</span><span style="animation-delay:.2s">N</span><span style="animation-delay:.25s">I</span><span style="animation-delay:.3s">X</span><span class="dot" style="animation-delay:.35s">.</span>
+    </div>
+  </div>
 
-    /* ════════════════════════════════════════════════════════════════════════
-       FadingVideo — looping video with rAF crossfade (no CSS transitions)
-       ════════════════════════════════════════════════════════════════════════ */
-    const FADE_MS       = 500;
-    const FADE_OUT_LEAD = 0.55;
-
-    function FadingVideo({ src, className, style }) {
-      const videoRef    = useRef(null);
-      const rafRef      = useRef(null);
-      const fadingOutRef = useRef(false);
-
-      useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
-
-        /* fadeTo reads current opacity from video.style.opacity so each new
-           fade resumes from wherever the last one left off.                  */
-        function fadeTo(targetOpacity, durationMs) {
-          cancelAnimationFrame(rafRef.current);
-          const startTime    = performance.now();
-          const startOpacity = parseFloat(video.style.opacity) || 0;
-
-          function tick(now) {
-            const elapsed  = now - startTime;
-            const progress = Math.min(elapsed / durationMs, 1);
-            video.style.opacity = String(
-              startOpacity + (targetOpacity - startOpacity) * progress
-            );
-            if (progress < 1) rafRef.current = requestAnimationFrame(tick);
-          }
-          rafRef.current = requestAnimationFrame(tick);
-        }
-
-        function onLoadedData() {
-          video.style.opacity = '0';
-          video.play().catch(() => {});
-          fadeTo(1, FADE_MS);
-        }
-
-        function onTimeUpdate() {
-          const remaining = video.duration - video.currentTime;
-          if (!fadingOutRef.current && remaining <= FADE_OUT_LEAD && remaining > 0) {
-            fadingOutRef.current = true;
-            fadeTo(0, FADE_MS);
-          }
-        }
-
-        function onEnded() {
-          video.style.opacity = '0';
-          setTimeout(() => {
-            video.currentTime  = 0;
-            video.play().catch(() => {});
-            fadingOutRef.current = false;
-            fadeTo(1, FADE_MS);
-          }, 100);
-        }
-
-        video.style.opacity = '0';
-        video.addEventListener('loadeddata', onLoadedData);
-        video.addEventListener('timeupdate', onTimeUpdate);
-        video.addEventListener('ended',      onEnded);
-
-        return () => {
-          cancelAnimationFrame(rafRef.current);
-          video.removeEventListener('loadeddata', onLoadedData);
-          video.removeEventListener('timeupdate', onTimeUpdate);
-          video.removeEventListener('ended',      onEnded);
-        };
-      }, [src]);
-
-      /* loop is intentionally OFF — we implement looping manually via ended  */
-      return (
-        <video
-          ref={videoRef}
-          src={src}
-          autoPlay muted playsInline preload="auto"
-          className={className}
-          style={{ opacity: 0, ...style }}
-        />
-      );
-    }
-
-    /* ════════════════════════════════════════════════════════════════════════
-       BlurText — word-by-word blur entrance, triggered by IntersectionObserver
-       ════════════════════════════════════════════════════════════════════════ */
-    function BlurText({ text, className }) {
-      const containerRef = useRef(null);
-      const [triggered, setTriggered] = useState(false);
-
-      useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) { setTriggered(true); observer.disconnect(); }
-          },
-          { threshold: 0.1 }
-        );
-        observer.observe(el);
-        return () => observer.disconnect();
-      }, []);
-
-      const words = text.split(' ');
-
-      return (
-        <p
-          ref={containerRef}
-          className={className}
-          style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', rowGap: '0.1em' }}
-        >
-          {words.map((word, i) => (
-            <motion.span
-              key={i}
-              initial={{ filter: 'blur(10px)', opacity: 0, y: 50 }}
-              animate={triggered
-                ? { filter: ['blur(10px)', 'blur(5px)', 'blur(0px)'],
-                    opacity: [0, 0.5, 1],
-                    y: [50, -5, 0] }
-                : { filter: 'blur(10px)', opacity: 0, y: 50 }
-              }
-              transition={{
-                duration: 0.7,
-                times: [0, 0.5, 1],
-                ease: 'easeOut',
-                delay: (i * 100) / 1000,
-              }}
-              style={{ display: 'inline-block', marginRight: '0.28em' }}
-            >
-              {word}
-            </motion.span>
-          ))}
-        </p>
-      );
-    }
-
-    /* ════════════════════════════════════════════════════════════════════════
-       Inline SVG icons (lucide-style, currentColor stroke)
-       ════════════════════════════════════════════════════════════════════════ */
-    function ArrowUpRight({ className = '' }) {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" strokeWidth="2"
-          strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <path d="M7 17L17 7"/>
-          <path d="M7 7h10v10"/>
-        </svg>
-      );
-    }
-
-    function PlayIcon({ className = '' }) {
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-          fill="currentColor" className={className}>
-          <polygon points="6 4 20 12 6 20 6 4"/>
-        </svg>
-      );
-    }
-
-    /* ════════════════════════════════════════════════════════════════════════
-       Navbar
-       ════════════════════════════════════════════════════════════════════════ */
-    function Navbar() {
-      const NAV_LINKS = ['Home', 'Voyages', 'Worlds', 'Innovation', 'Plan Launch'];
-      return (
-        <nav className="fixed top-4 left-0 right-0 z-50 px-8 lg:px-16 flex items-center justify-between">
-          {/* Logo pill */}
-          <div className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="font-heading italic text-white text-xl leading-none select-none">a</span>
-          </div>
-
-          {/* Centre nav — desktop only */}
-          <div className="hidden md:flex items-center liquid-glass rounded-full px-1.5 py-1.5">
-            {NAV_LINKS.map(link => (
-              <a key={link} href="#"
-                className="px-3 py-2 text-sm font-medium text-white/90 font-body hover:text-white transition-colors whitespace-nowrap">
-                {link}
-              </a>
-            ))}
-            <button className="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold font-body whitespace-nowrap flex items-center gap-1.5 ml-1 cursor-pointer">
-              Claim a Spot
-              <ArrowUpRight className="h-4 w-4" />
-            </button>
-          </div>
-
-          {/* Invisible balance spacer */}
-          <div className="w-12 h-12 flex-shrink-0" />
+  <!-- Nav -->
+  <header class="site-nav">
+    <div class="container">
+      <div class="nav-inner glass">
+        <a class="brand" href="index.html" aria-label="IZINIX home">IZINIX<span class="dot">.</span></a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html" class="is-active" aria-current="page">Home</a>
+          <a href="work.html">Work</a>
+          <a href="contact.html">Contact</a>
         </nav>
-      );
-    }
+        <a class="glass-btn glass-btn--accent nav-cta" href="contact.html" data-magnetic="0.25">Start a project</a>
+        <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    /* ════════════════════════════════════════════════════════════════════════
-       Hero Section
-       ════════════════════════════════════════════════════════════════════════ */
-    function HeroSection() {
-      const fu = (delay) => ({
-        initial:    { filter: 'blur(10px)', opacity: 0, y: 20 },
-        animate:    { filter: 'blur(0px)',  opacity: 1, y: 0  },
-        transition: { ease: 'easeOut', duration: 0.7, delay   },
-      });
+  <div class="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html" class="is-active"><span class="idx">01</span> Home</a>
+    <a href="work.html"><span class="idx">02</span> Work</a>
+    <a href="contact.html"><span class="idx">03</span> Contact</a>
+    <a href="contact.html"><span class="idx">→</span> Start a project</a>
+  </div>
 
-      return (
-        <section className="relative min-h-screen bg-black flex flex-col overflow-hidden">
+  <main id="main">
 
-          {/* Background video — 120 % wide, top-anchored, no overlay */}
-          <FadingVideo
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4"
-            className="absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
-            style={{ width: '120%', height: '120%' }}
-          />
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-glow hero-glow--navy"></div>
+        <div class="hero-glow hero-glow--orange"></div>
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-fade"></div>
+      </div>
 
-          {/* z-10 content layer */}
-          <div className="relative z-10 flex flex-col min-h-screen">
-            <Navbar />
+      <div class="container hero-content">
+        <div class="hero-eyebrow-row" data-hero-fade>
+          <span class="live-dot" aria-hidden="true"></span>
+          <span class="eyebrow eyebrow--bare">Izinix — AI Automation Agency</span>
+          <span class="mono-label">/ Booking Q3 2026</span>
+        </div>
 
-            {/* ── Hero content (centred) ─────────────────────────────────── */}
-            <div className="flex-1 flex flex-col items-center justify-center pt-24 px-4">
+        <h1 class="hero-title h-display">
+          <span class="h-line"><span class="h-line-inner">Intelligence,</span></span>
+          <span class="h-line"><span class="h-line-inner"><em>beautifully</em></span></span>
+          <span class="h-line"><span class="h-line-inner">automated.</span></span>
+        </h1>
 
-              {/* Badge */}
-              <motion.div {...fu(0.4)}
-                className="liquid-glass rounded-full flex items-center gap-2 px-2 py-1.5 mb-6">
-                <span className="bg-white text-black px-3 py-1 rounded-full text-xs font-semibold font-body">
-                  New
-                </span>
-                <span className="text-sm text-white/90 font-body pr-3">
-                  Maiden Crewed Voyage to Mars Arrives 2026
-                </span>
-              </motion.div>
+        <div class="hero-bottom">
+          <div class="hero-copy" data-hero-fade>
+            <p class="lead">We design, build, and automate the systems modern businesses run on — websites that convert, interfaces that feel inevitable, and AI that works while you sleep.</p>
+            <div class="hero-ctas">
+              <a class="glass-btn glass-btn--accent" href="contact.html" data-magnetic="0.3">
+                Start a project
+                <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="glass-btn" href="work.html" data-magnetic="0.3">See the proof</a>
+            </div>
+          </div>
 
-              {/* Headline — word-by-word blur */}
-              <BlurText
-                text="Venture Past Our Sky Across the Universe"
-                className="text-6xl md:text-7xl lg:text-[5.5rem] font-heading italic text-white leading-[0.8] max-w-2xl justify-center tracking-[-4px]"
-              />
+          <div class="hero-stats" data-hero-fade>
+            <div class="hero-stat">
+              <div class="num"><span data-count="47">0</span><sup>+</sup></div>
+              <div class="lbl mono-label">Systems shipped</div>
+            </div>
+            <div class="hero-stat">
+              <div class="num"><span data-count="12">0</span><sup>×</sup></div>
+              <div class="lbl mono-label">Avg. ROI, year one</div>
+            </div>
+            <div class="hero-stat">
+              <div class="num">24<sup>/7</sup></div>
+              <div class="lbl mono-label">Your new workforce</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              {/* Subheading */}
-              <motion.p {...fu(0.8)}
-                className="mt-4 text-sm md:text-base text-white max-w-2xl font-body font-light leading-tight text-center">
-                Discover the universe in ways once unimaginable. Our pioneering vessels and
-                breakthrough engineering bring deep-space exploration within reach—secure and extraordinary.
-              </motion.p>
+      <div class="scroll-hint" aria-hidden="true">
+        <span class="mono-label">Scroll</span>
+        <span class="line"></span>
+      </div>
+    </section>
 
-              {/* CTA row */}
-              <motion.div {...fu(1.1)} className="flex items-center gap-6 mt-6">
-                <button className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white flex items-center gap-2 font-body cursor-pointer">
-                  Start Your Voyage
-                  <ArrowUpRight className="h-5 w-5" />
-                </button>
-                <button className="text-white text-sm font-body font-medium flex items-center gap-2 cursor-pointer bg-transparent border-0">
-                  View Liftoff
-                  <PlayIcon className="h-4 w-4" />
-                </button>
-              </motion.div>
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span>Web Development</span><span class="sep">✦</span>
+          <span>UI/UX Design</span><span class="sep">✦</span>
+          <span>Content Creation</span><span class="sep">✦</span>
+          <span>AI Automation</span><span class="sep">✦</span>
+          <span>Social Media</span><span class="sep">✦</span>
+        </div>
+        <div class="marquee-group">
+          <span>Web Development</span><span class="sep">✦</span>
+          <span>UI/UX Design</span><span class="sep">✦</span>
+          <span>Content Creation</span><span class="sep">✦</span>
+          <span>AI Automation</span><span class="sep">✦</span>
+          <span>Social Media</span><span class="sep">✦</span>
+        </div>
+      </div>
+    </div>
 
-              {/* Stats cards */}
-              <motion.div {...fu(1.3)} className="flex items-stretch gap-4 mt-8">
+    <!-- ================= QUOTE 01 ================= -->
+    <section class="section quote-section">
+      <div class="container">
+        <span class="quote-mark" aria-hidden="true" data-parallax="0.3">“</span>
+        <blockquote class="quote-text" data-quote-scrub>Most agencies hand you a website and walk away. We hand you a machine — one that designs, sells, and scales while you sleep.</blockquote>
+        <div class="quote-attrib" data-reveal>
+          <span class="rule" aria-hidden="true"></span>
+          <span class="mono-label">The Izinix principle · N°01</span>
+        </div>
+      </div>
+    </section>
 
-                {/* Card 1 — clock */}
-                <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
-                    stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  <div>
-                    <div className="text-4xl font-heading italic text-white tracking-[-1px] leading-none">
-                      34.5 Min
-                    </div>
-                    <div className="text-xs text-white font-body font-light mt-2">
-                      Average Videos Watch Time
-                    </div>
-                  </div>
-                </div>
+    <!-- ================= SERVICES ================= -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">What we do</span>
+            <h2 class="h-display" data-lines-reveal>
+              <span class="h-line"><span class="h-line-inner">Five disciplines,</span></span>
+              <span class="h-line"><span class="h-line-inner">one <em class="serif-it" style="color:var(--accent)">operating system.</em></span></span>
+            </h2>
+          </div>
+          <p class="lead side" data-reveal>Each capability is strong alone. Wired together, they become a compounding growth engine for your business.</p>
+        </div>
 
-                {/* Card 2 — globe */}
-                <div className="liquid-glass p-5 w-[220px] rounded-[1.25rem] flex flex-col justify-between">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
-                    stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="2" y1="12" x2="22" y2="12"/>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                  </svg>
-                  <div>
-                    <div className="text-4xl font-heading italic text-white tracking-[-1px] leading-none">
-                      2.8B+
-                    </div>
-                    <div className="text-xs text-white font-body font-light mt-2">
-                      Users Across the Globe
-                    </div>
-                  </div>
-                </div>
-
-              </motion.div>
-            </div>{/* /hero content */}
-
-            {/* ── Partners row ──────────────────────────────────────────── */}
-            <motion.div
-              initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
-              animate={{ filter: 'blur(0px)',  opacity: 1, y: 0  }}
-              transition={{ ease: 'easeOut', duration: 0.7, delay: 1.4 }}
-              className="flex flex-col items-center gap-4 pb-8"
-            >
-              <div className="liquid-glass rounded-full px-3.5 py-1">
-                <span className="text-xs font-medium text-white font-body">
-                  Collaborating with top aerospace pioneers globally
-                </span>
+        <div class="services-grid">
+          <!-- 01 Web Development -->
+          <article class="glass glass-spot service-card service-card--wide" data-tilt data-reveal>
+            <div class="card-top">
+              <div class="service-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13 4l-2.5 16"/></svg>
               </div>
-              <div className="flex items-center gap-12 md:gap-16">
-                {['Aeon', 'Vela', 'Apex', 'Orbit', 'Zeno'].map(name => (
-                  <span key={name}
-                    className="font-heading italic text-white text-2xl md:text-3xl tracking-tight">
-                    {name}
-                  </span>
-                ))}
+              <span class="service-idx">/ 01</span>
+            </div>
+            <h3>Web Development</h3>
+            <p>High-performance sites and web apps engineered to convert — obsessively fast, deeply accessible, and built to be extended, not rebuilt, next year.</p>
+            <div class="service-tags"><span>Next.js</span><span>Headless CMS</span><span>E-commerce</span><span>Core Web Vitals</span></div>
+          </article>
+
+          <!-- 02 UI/UX Design -->
+          <article class="glass glass-spot service-card" data-tilt data-reveal data-reveal-delay="0.1">
+            <div class="card-top">
+              <div class="service-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19a7 7 0 1 1 7-7M12 19l7-7M12 19v3M22 12h-3"/><circle cx="12" cy="12" r="2.5"/></svg>
               </div>
-            </motion.div>
+              <span class="service-idx">/ 02</span>
+            </div>
+            <h3>UI/UX Design</h3>
+            <p>Interfaces that feel inevitable. Research-led, prototyped in motion, and art-directed down to the last pixel.</p>
+            <div class="service-tags"><span>Product design</span><span>Design systems</span><span>Prototyping</span></div>
+          </article>
 
-          </div>{/* /z-10 layer */}
-        </section>
-      );
-    }
+          <!-- 03 Content Creation -->
+          <article class="glass glass-spot service-card" data-tilt data-reveal>
+            <div class="card-top">
+              <div class="service-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4.5-1.2L20 7.3a2.1 2.1 0 0 0-3-3L5.5 15.8 4 20ZM14.5 6.8l3 3"/></svg>
+              </div>
+              <span class="service-idx">/ 03</span>
+            </div>
+            <h3>Content Creation</h3>
+            <p>Strategy, copy, and visuals with a spine — brand narratives, campaigns, and assets your audience actually remembers.</p>
+            <div class="service-tags"><span>Brand voice</span><span>Copywriting</span><span>Video &amp; motion</span></div>
+          </article>
 
-    /* ════════════════════════════════════════════════════════════════════════
-       Capabilities Section
-       ════════════════════════════════════════════════════════════════════════ */
-    const CAP_CARDS = [
-      {
-        /* image icon */
-        iconPath: 'M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21H5Zm1-4h12l-3.75-5-3 4L9 13l-3 4Z',
-        tags:  ['Natural Context', 'Photo Realism', 'Infinite Settings', 'Eco-Vibe'],
-        title: 'AI Scenery',
-        body:  'AI analyzes your product to create indistinguishable natural environments — from Icelandic cliffs to misty forests.',
-      },
-      {
-        /* movie icon */
-        iconPath: 'M4 6.47 5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.89-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4Z',
-        tags:  ['Scale Fast', 'Visual Consistency', 'Time Saver', 'Ready to Post'],
-        title: 'Batch Production',
-        body:  'Style your entire product line in minutes. Create a unified visual identity for catalogues and social media without weeks of retouching.',
-      },
-      {
-        /* lightbulb icon */
-        iconPath: 'M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1Zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7Z',
-        tags:  ['Ray Tracing', 'Physical Shadows', 'Studio Quality', 'Sunlight Sync'],
-        title: 'Smart Lighting',
-        body:  'Automatic lighting and material adjustment. Achieve flawless integration with realistic shadows and sunlight.',
-      },
-    ];
+          <!-- 04 AI Automation (featured) -->
+          <article class="glass glass-spot service-card service-card--wide service-card--featured" data-tilt data-reveal data-reveal-delay="0.1">
+            <div class="card-top">
+              <div class="service-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.8 2.8M16.2 16.2 19 19M19 5l-2.8 2.8M7.8 16.2 5 19"/><circle cx="12" cy="12" r="3.5"/></svg>
+              </div>
+              <span class="featured-flag">Core capability</span>
+            </div>
+            <h3>AI Automation</h3>
+            <p>The IZINIX signature. We map your operations, find the hours you're bleeding, and replace them with agents and pipelines — support that answers in seconds, invoices that chase themselves, reports that write themselves before Monday standup.</p>
+            <div class="service-tags"><span>AI agents</span><span>Workflow pipelines</span><span>CRM &amp; ops integration</span><span>LLM engineering</span></div>
+          </article>
 
-    function CapabilitiesSection() {
-      return (
-        <section className="relative min-h-screen bg-black overflow-hidden">
+          <!-- 05 Social Media -->
+          <article class="glass glass-spot service-card" data-tilt data-reveal data-reveal-delay="0.2">
+            <div class="card-top">
+              <div class="service-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-4-7.2M21 3l-9 9"/><circle cx="12" cy="12" r="1"/></svg>
+              </div>
+              <span class="service-idx">/ 05</span>
+            </div>
+            <h3>Social Media</h3>
+            <p>Always-on presence, engineered. Editorial calendars, AI-assisted production, and analytics loops that compound reach month over month.</p>
+            <div class="service-tags"><span>Strategy</span><span>Production</span><span>Community</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-          {/* Background video — full-bleed, no overlay */}
-          <FadingVideo
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4"
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-
-          <div className="relative z-10 px-8 md:px-16 lg:px-20 pt-24 pb-10 flex flex-col min-h-screen">
-
-            {/* ── Header ──────────────────────────────────────────────── */}
-            <div className="mb-auto">
-              <p className="text-sm font-body text-white/80 mb-6">// Capabilities</p>
-              <h2 className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]">
-                Production<br/>evolved
+    <!-- ================= PROCESS ================= -->
+    <section class="process" id="process">
+      <div class="process-pin">
+        <div class="container process-head">
+          <div class="section-head" style="margin-bottom:0">
+            <div>
+              <span class="eyebrow">How we work</span>
+              <h2 class="h-display" data-lines-reveal>
+                <span class="h-line"><span class="h-line-inner">A straight line from</span></span>
+                <span class="h-line"><span class="h-line-inner"><em class="serif-it" style="color:var(--accent)">chaos</em> to autopilot.</span></span>
               </h2>
             </div>
-
-            {/* ── Cards grid ──────────────────────────────────────────── */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-              {CAP_CARDS.map((card, i) => (
-                <div key={i} className="liquid-glass rounded-[1.25rem] p-6 min-h-[360px] flex flex-col">
-
-                  {/* Top row: icon + tags */}
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="liquid-glass w-11 h-11 rounded-[0.75rem] flex items-center justify-center flex-shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        fill="currentColor" className="h-6 w-6 text-white">
-                        <path d={card.iconPath}/>
-                      </svg>
-                    </div>
-                    <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
-                      {card.tags.map(tag => (
-                        <span key={tag}
-                          className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Spacer */}
-                  <div className="flex-1" />
-
-                  {/* Bottom: title + body */}
-                  <div className="mt-6">
-                    <h3 className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
-                      {card.title}
-                    </h3>
-                    <p className="mt-3 text-sm text-white/90 font-body font-light leading-snug max-w-[32ch]">
-                      {card.body}
-                    </p>
-                  </div>
-
-                </div>
-              ))}
-            </div>
-
+            <p class="lead side" data-reveal>Five phases. No mystery, no scope-creep theatre — you see every step, and every step ships something.</p>
           </div>
-        </section>
-      );
-    }
+        </div>
 
-    /* ════════════════════════════════════════════════════════════════════════
-       App root
-       ════════════════════════════════════════════════════════════════════════ */
-    function App() {
-      return (
-        <>
-          <HeroSection />
-          <CapabilitiesSection />
-        </>
-      );
-    }
+        <div class="process-track">
+          <article class="glass glass-spot process-step">
+            <div class="step-num">01</div>
+            <h3><span class="phase">Phase 01 — Discover</span>Deep-dive diagnostics</h3>
+            <p>We embed with your team for a week, map every workflow, and find where the hours and money actually leak. No slideware — a forensic audit of how your business really runs.</p>
+            <div class="step-out">Output — <b>Opportunity map &amp; automation scorecard</b></div>
+          </article>
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+          <article class="glass glass-spot process-step">
+            <div class="step-num">02</div>
+            <h3><span class="phase">Phase 02 — Design</span>Blueprint the experience</h3>
+            <p>Brand, interface, and system architecture designed together, so the thing customers see and the machine underneath it are the same thought.</p>
+            <div class="step-out">Output — <b>Prototypes, design system, system spec</b></div>
+          </article>
+
+          <article class="glass glass-spot process-step">
+            <div class="step-num">03</div>
+            <h3><span class="phase">Phase 03 — Build</span>Ship the foundation</h3>
+            <p>Weekly releases you can click, not status decks. Production-grade code, tested and instrumented from the first commit.</p>
+            <div class="step-out">Output — <b>Live product, staging &amp; analytics wired</b></div>
+          </article>
+
+          <article class="glass glass-spot process-step is-accent">
+            <div class="step-num">04</div>
+            <h3><span class="phase">Phase 04 — Automate</span>Turn on the machine</h3>
+            <p>Agents, integrations, and pipelines go live against real work: support triage, lead routing, invoicing, reporting. Humans stay on judgment; software takes the repetition.</p>
+            <div class="step-out">Output — <b>Automations in production, hours reclaimed</b></div>
+          </article>
+
+          <article class="glass glass-spot process-step">
+            <div class="step-num">05</div>
+            <h3><span class="phase">Phase 05 — Launch + Support</span>Compound the gains</h3>
+            <p>Launch is the starting line. We monitor, tune, and extend the system monthly — every quarter it does more, and costs you less attention.</p>
+            <div class="step-out">Output — <b>SLA support, quarterly optimization</b></div>
+          </article>
+        </div>
+        <div class="process-progress" aria-hidden="true"><div class="bar"></div></div>
+      </div>
+    </section>
+
+    <!-- ================= SHOWCASE ================= -->
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Selected work</span>
+            <h2 class="h-display" data-lines-reveal>
+              <span class="h-line"><span class="h-line-inner">Proof, not</span></span>
+              <span class="h-line"><span class="h-line-inner"><em class="serif-it" style="color:var(--accent)">promises.</em></span></span>
+            </h2>
+          </div>
+          <a class="text-link" href="work.html" data-reveal>All use cases
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="work-grid">
+          <a class="project-card" href="work.html" data-cursor-label="VIEW" data-reveal>
+            <div class="project-cover">
+              <div class="cover-art cover-art--aurora" data-parallax="0.25">
+                <span class="big-glyph">Au</span>
+                <span class="art-chip" style="left:12%;top:18%;width:46%;height:12%"></span>
+                <span class="art-chip" style="left:12%;top:36%;width:34%;height:12%"></span>
+                <span class="art-chip" style="left:12%;top:54%;width:52%;height:26%;background:rgba(255,90,31,0.10);border-color:rgba(255,90,31,0.3)"></span>
+              </div>
+              <span class="cover-tag">AI Automation · Healthcare</span>
+              <span class="cover-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+            <div class="project-meta">
+              <div>
+                <h3>Aurora Health</h3>
+                <p>Patient intake &amp; triage, fully automated</p>
+              </div>
+              <span class="result">−82% admin time</span>
+            </div>
+          </a>
+
+          <a class="project-card" href="work.html" data-cursor-label="VIEW" data-reveal data-reveal-delay="0.12">
+            <div class="project-cover">
+              <div class="cover-art cover-art--north" data-parallax="0.25">
+                <span class="big-glyph">N</span>
+                <span class="art-chip" style="right:14%;top:16%;width:38%;height:44%"></span>
+                <span class="art-chip" style="right:20%;top:70%;width:26%;height:10%;background:rgba(255,90,31,0.12);border-color:rgba(255,90,31,0.3)"></span>
+              </div>
+              <span class="cover-tag">Web Development · Fintech</span>
+              <span class="cover-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+            <div class="project-meta">
+              <div>
+                <h3>Northwind Capital</h3>
+                <p>Investor portal with live reporting engine</p>
+              </div>
+              <span class="result">+31% close rate</span>
+            </div>
+          </a>
+
+          <a class="project-card" href="work.html" data-cursor-label="VIEW" data-reveal>
+            <div class="project-cover">
+              <div class="cover-art cover-art--velvet" data-parallax="0.25">
+                <span class="big-glyph">V&amp;V</span>
+                <span class="art-chip" style="left:16%;top:20%;width:30%;height:52%"></span>
+                <span class="art-chip" style="left:52%;top:34%;width:30%;height:38%;background:rgba(255,90,31,0.08);border-color:rgba(255,90,31,0.25)"></span>
+              </div>
+              <span class="cover-tag">UI/UX + Content · Retail</span>
+              <span class="cover-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+            <div class="project-meta">
+              <div>
+                <h3>Velvet &amp; Vine</h3>
+                <p>Rebrand + e-commerce experience</p>
+              </div>
+              <span class="result">2.4× conversion</span>
+            </div>
+          </a>
+
+          <a class="project-card" href="work.html" data-cursor-label="VIEW" data-reveal data-reveal-delay="0.12">
+            <div class="project-cover">
+              <div class="cover-art cover-art--podium" data-parallax="0.25">
+                <span class="big-glyph">P</span>
+                <span class="art-chip" style="left:14%;top:24%;width:22%;height:40%"></span>
+                <span class="art-chip" style="left:40%;top:36%;width:22%;height:28%"></span>
+                <span class="art-chip" style="left:66%;top:18%;width:22%;height:46%;background:rgba(255,90,31,0.10);border-color:rgba(255,90,31,0.3)"></span>
+              </div>
+              <span class="cover-tag">Social Media · SaaS</span>
+              <span class="cover-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+            <div class="project-meta">
+              <div>
+                <h3>Podium</h3>
+                <p>AI-assisted social engine, 90-day sprint</p>
+              </div>
+              <span class="result">4.8× reach</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="work-more" data-reveal>
+          <a class="glass-btn" href="work.html" data-magnetic="0.3">
+            Explore before &amp; after scenarios
+            <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= QUOTE 02 — testimonial ================= -->
+    <section class="section quote-section quote-section--testimonial">
+      <div class="container">
+        <div class="glass glass-spot testimonial-card" data-reveal>
+          <div class="testimonial-avatar" aria-hidden="true">SO</div>
+          <div>
+            <span class="eyebrow eyebrow--accent" style="margin-bottom:24px">Client testimony</span>
+            <blockquote class="testimonial-quote">
+              “IZINIX rebuilt our entire lead pipeline in six weeks. What used to take our team <strong>30 hours a week</strong> now happens before we open our laptops. It's the closest thing to hiring a department that never sleeps.”
+            </blockquote>
+            <div class="testimonial-meta">
+              <div class="who"><b>Sarah Okonkwo</b>COO, Northwind Capital</div>
+              <div class="testimonial-kpis">
+                <div class="kpi"><div class="v">30h</div><div class="mono-label">saved / week</div></div>
+                <div class="kpi"><div class="v">6 wks</div><div class="mono-label">to live</div></div>
+                <div class="kpi"><div class="v">+31%</div><div class="mono-label">close rate</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CLOSING CTA ================= -->
+    <section class="cta-section">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <div class="container">
+        <span class="eyebrow eyebrow--bare" data-reveal>Ready when you are</span>
+        <h2 class="cta-title h-display" data-lines-reveal style="margin-top:24px">
+          <span class="h-line"><span class="h-line-inner">Let's build the thing</span></span>
+          <span class="h-line"><span class="h-line-inner">your competitors</span></span>
+          <span class="h-line"><span class="h-line-inner"><em>can't copy.</em></span></span>
+        </h2>
+        <p class="lead cta-sub" data-reveal>One conversation. We'll show you exactly which hours your business is losing — and the system that gets them back.</p>
+        <div data-reveal data-reveal-delay="0.1">
+          <a class="glass-btn glass-btn--accent glass-btn--lg" href="contact.html" data-magnetic="0.25">
+            Start your project
+            <svg class="arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <p class="mono-label cta-mono" data-reveal data-reveal-delay="0.2">No retainers required · Reply within 24h</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-mark">IZINIX<span class="dot">.</span></div>
+          <p class="footer-blurb">A full-stack creative &amp; AI automation agency. We build the systems modern businesses run on.</p>
+        </div>
+        <div>
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="index.html#services">Web Development</a></li>
+            <li><a href="index.html#services">UI/UX Design</a></li>
+            <li><a href="index.html#services">Content Creation</a></li>
+            <li><a href="index.html#services">AI Automation</a></li>
+            <li><a href="index.html#services">Social Media</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@izinix.agency">hello@izinix.agency</a></li>
+            <li><a href="#" rel="noopener">LinkedIn</a></li>
+            <li><a href="#" rel="noopener">Instagram</a></li>
+            <li><a href="#" rel="noopener">X / Twitter</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">IZINIX</div>
+    <div class="container">
+      <div class="footer-bottom">
+        <span class="mono-label">© <span data-year>2026</span> IZINIX — All rights reserved</span>
+        <span class="mono-label">Designed &amp; automated in-house</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDN libs -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/three-bg.js" defer></script>
 </body>
 </html>

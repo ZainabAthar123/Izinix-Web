@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — IZINIX · Start Your Project</title>
+  <meta name="description" content="Tell IZINIX about your project. Web development, UI/UX design, content, social media, or AI automation — we reply within 24 hours." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2305070A'/%3E%3Ccircle cx='50' cy='50' r='26' fill='%23FF5A1F'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="contact">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Loader curtain -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-mark">
+      <span style="animation-delay:.05s">I</span><span style="animation-delay:.1s">Z</span><span style="animation-delay:.15s">I</span><span style="animation-delay:.2s">N</span><span style="animation-delay:.25s">I</span><span style="animation-delay:.3s">X</span><span class="dot" style="animation-delay:.35s">.</span>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <header class="site-nav">
+    <div class="container">
+      <div class="nav-inner glass">
+        <a class="brand" href="index.html" aria-label="IZINIX home">IZINIX<span class="dot">.</span></a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="work.html">Work</a>
+          <a href="contact.html" class="is-active" aria-current="page">Contact</a>
+        </nav>
+        <a class="glass-btn glass-btn--accent nav-cta" href="mailto:hello@izinix.agency" data-magnetic="0.25">hello@izinix.agency</a>
+        <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html"><span class="idx">01</span> Home</a>
+    <a href="work.html"><span class="idx">02</span> Work</a>
+    <a href="contact.html" class="is-active"><span class="idx">03</span> Contact</a>
+    <a href="mailto:hello@izinix.agency"><span class="idx">→</span> Email us</a>
+  </div>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero hero--sub" style="min-height:62svh">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-glow hero-glow--navy"></div>
+        <div class="hero-glow hero-glow--orange"></div>
+        <div class="hero-fade"></div>
+      </div>
+
+      <div class="container hero-content">
+        <div class="hero-eyebrow-row" data-hero-fade>
+          <span class="live-dot" aria-hidden="true"></span>
+          <span class="eyebrow eyebrow--bare">Contact</span>
+          <span class="mono-label">/ Reply within 24h</span>
+        </div>
+
+        <h1 class="hero-title h-display" style="font-size:clamp(40px,7vw,104px)">
+          <span class="h-line"><span class="h-line-inner">Tell us where</span></span>
+          <span class="h-line"><span class="h-line-inner">it <em>hurts.</em></span></span>
+        </h1>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="section" style="padding-top: clamp(40px, 6vh, 72px)">
+      <div class="container">
+        <div class="contact-wrap">
+
+          <!-- Aside -->
+          <aside class="contact-aside">
+            <div class="glass glass-spot aside-card" data-reveal>
+              <h3>Prefer email?</h3>
+              <p>Skip the form entirely. Describe your project in three sentences — we'll take it from there.</p>
+              <a class="big-mail" href="mailto:hello@izinix.agency">hello@izinix.agency</a>
+            </div>
+
+            <div class="glass glass-spot aside-card" data-reveal data-reveal-delay="0.1">
+              <h3>What happens next</h3>
+              <div class="aside-rows">
+                <div class="row"><span class="k">01 / 24h</span><span class="v">We reply with first questions</span></div>
+                <div class="row"><span class="k">02 / 48h</span><span class="v">45-min scoping call, free</span></div>
+                <div class="row"><span class="k">03 / 1 wk</span><span class="v">Proposal with fixed scope &amp; price</span></div>
+              </div>
+            </div>
+
+            <div class="glass glass-spot aside-card" data-reveal data-reveal-delay="0.2">
+              <h3>Status</h3>
+              <div class="aside-rows">
+                <div class="row"><span class="k">Capacity</span><span class="v ok">● Booking Q3 2026</span></div>
+                <div class="row"><span class="k">Base</span><span class="v">Remote-first, worldwide</span></div>
+                <div class="row"><span class="k">Timezones</span><span class="v">We overlap with yours</span></div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Form -->
+          <div class="glass glass-spot contact-form-card" data-reveal data-reveal-delay="0.1">
+            <form id="contact-form" novalidate="false">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="f-name">Name <span class="req">*</span></label>
+                  <input id="f-name" name="name" type="text" placeholder="Ada Lovelace" autocomplete="name" required />
+                </div>
+                <div class="form-field">
+                  <label for="f-email">Email <span class="req">*</span></label>
+                  <input id="f-email" name="email" type="email" placeholder="ada@company.com" autocomplete="email" required />
+                </div>
+
+                <div class="form-field">
+                  <label for="f-company">Company <span class="opt">(optional)</span></label>
+                  <input id="f-company" name="company" type="text" placeholder="Company Inc." autocomplete="organization" />
+                </div>
+                <div class="form-field">
+                  <label for="f-service">Service interested in <span class="req">*</span></label>
+                  <div class="select-wrap">
+                    <select id="f-service" name="service" required>
+                      <option value="" selected disabled>Select a service…</option>
+                      <option value="web">Web Development</option>
+                      <option value="uiux">UI/UX Design</option>
+                      <option value="content">Content Creation</option>
+                      <option value="ai">AI Automation</option>
+                      <option value="social">Social Media</option>
+                      <option value="full">The full operating system</option>
+                      <option value="unsure">Not sure yet — advise me</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="f-budget">Budget range <span class="opt">(optional)</span></label>
+                  <div class="select-wrap">
+                    <select id="f-budget" name="budget">
+                      <option value="" selected>Prefer not to say yet</option>
+                      <option value="s">Under $5k</option>
+                      <option value="m">$5k – $15k</option>
+                      <option value="l">$15k – $50k</option>
+                      <option value="xl">$50k+</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="f-message">Message <span class="req">*</span></label>
+                  <textarea id="f-message" name="message" placeholder="What are you building? What's eating your team's hours? Rough timeline?" required></textarea>
+                </div>
+
+                <div class="form-foot">
+                  <p class="hint">We'll only use this to reply about your project. No newsletters, no drip campaigns — promise.</p>
+                  <button class="glass-btn glass-btn--accent" type="submit" data-magnetic="0.2">
+                    Send message
+                    <svg class="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-success" id="form-success" role="status" aria-live="polite">
+                <div class="tick" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5 9.5 18 20 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h3><em><span data-name-slot>We</span></em> got it.</h3>
+                <p>Your message is in the queue — a human (yes, a real one) will reply within 24 hours. Meanwhile, have a look at what "after" feels like on our <a href="work.html" style="color:var(--accent-bright)">use cases page</a>.</p>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-mark">IZINIX<span class="dot">.</span></div>
+          <p class="footer-blurb">A full-stack creative &amp; AI automation agency. We build the systems modern businesses run on.</p>
+        </div>
+        <div>
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="index.html#services">Web Development</a></li>
+            <li><a href="index.html#services">UI/UX Design</a></li>
+            <li><a href="index.html#services">Content Creation</a></li>
+            <li><a href="index.html#services">AI Automation</a></li>
+            <li><a href="index.html#services">Social Media</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@izinix.agency">hello@izinix.agency</a></li>
+            <li><a href="#" rel="noopener">LinkedIn</a></li>
+            <li><a href="#" rel="noopener">Instagram</a></li>
+            <li><a href="#" rel="noopener">X / Twitter</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">IZINIX</div>
+    <div class="container">
+      <div class="footer-bottom">
+        <span class="mono-label">© <span data-year>2026</span> IZINIX — All rights reserved</span>
+        <span class="mono-label">Designed &amp; automated in-house</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDN libs -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
