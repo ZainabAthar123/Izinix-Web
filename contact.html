@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Izinix</title>
+  <meta name="description" content="Start a project with Izinix. Tell us where it hurts — we'll bring the design and the robots." />
+  <meta property="og:title" content="Contact — Izinix" />
+  <meta property="og:description" content="Start a project with Izinix — web, UI/UX, content and AI automation." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2306060b'/%3E%3Cpath d='M16 5l2.6 8.4L27 16l-8.4 2.6L16 27l-2.6-8.4L5 16l8.4-2.6z' fill='%238A7CFF'/%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Space+Grotesk:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/site.css" />
+  <noscript>
+    <style>
+      .cursor-dot, .cursor-ring { display: none !important; }
+      #webgl { display: none; }
+    </style>
+  </noscript>
+</head>
+<body class="no-js">
+
+  <!-- Interactive WebGL background -->
+  <div class="bg-fallback" aria-hidden="true"></div>
+  <canvas id="webgl" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"><span class="cursor-label">View</span></div>
+
+  <!-- Nav -->
+  <nav class="nav glass" id="nav" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" data-hover>
+      <span class="spark">✦</span> IZINIX
+    </a>
+    <div class="nav-links">
+      <a href="index.html#services">Services</a>
+      <a href="showcase.html">Use cases</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+    </div>
+    <a href="contact.html" class="nav-cta" data-magnetic>
+      Start a project
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="menu-overlay" id="menuOverlay">
+    <a class="menu-link" href="index.html"><span class="menu-num">01</span> Home</a>
+    <a class="menu-link" href="index.html#services"><span class="menu-num">02</span> Services</a>
+    <a class="menu-link" href="showcase.html"><span class="menu-num">03</span> Use cases</a>
+    <a class="menu-link" href="contact.html"><span class="menu-num">04</span> Contact</a>
+    <div class="menu-foot">
+      <a class="mono" href="mailto:hello@izinix.studio">hello@izinix.studio</a>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ═══════════ PAGE HERO ═══════════ -->
+    <header class="hero hero--page" style="min-height: 62svh;">
+      <div class="hero-chip glass" data-intro>
+        <span class="pulse"></span>
+        Contact — Usually replies within a day
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line-mask"><span class="line">Tell us where</span></span>
+        <span class="line-mask"><span class="line serif">it hurts.</span></span>
+      </h1>
+
+      <p class="hero-sub" data-intro>
+        A rough idea is enough. Share the workflow that's slowing you down and
+        we'll come back with a plan — design, build and automation included.
+      </p>
+    </header>
+
+    <!-- ═══════════ CONTACT ═══════════ -->
+    <section class="section" id="contact" style="padding-top: 2rem;">
+      <div class="contact-grid">
+
+        <!-- ── Form ── -->
+        <form class="form-card glass" id="contactForm" novalidate="false" data-reveal>
+          <div class="field-row">
+            <div class="field">
+              <label for="cf-name">Name <span class="req">*</span></label>
+              <input type="text" id="cf-name" name="name" placeholder="Ada Lovelace" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="cf-email">Email <span class="req">*</span></label>
+              <input type="email" id="cf-email" name="email" placeholder="ada@company.com" required autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="cf-company">Company</label>
+            <input type="text" id="cf-company" name="company" placeholder="Analytical Engines Inc." autocomplete="organization" />
+          </div>
+
+          <div class="field">
+            <label>What do you need?</label>
+            <div class="pills" role="radiogroup" aria-label="Service of interest">
+              <label class="pill"><input type="radio" name="service" value="Web Development" /><span>Web Development</span></label>
+              <label class="pill"><input type="radio" name="service" value="UI/UX Design" /><span>UI / UX Design</span></label>
+              <label class="pill"><input type="radio" name="service" value="Content & Brand" /><span>Content &amp; Brand</span></label>
+              <label class="pill"><input type="radio" name="service" value="AI Automation" checked /><span>AI Automation</span></label>
+              <label class="pill"><input type="radio" name="service" value="Not sure yet" /><span>Not sure yet</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Budget range</label>
+            <div class="pills" role="radiogroup" aria-label="Budget range">
+              <label class="pill"><input type="radio" name="budget" value="< $5k" /><span>&lt; $5k</span></label>
+              <label class="pill"><input type="radio" name="budget" value="$5k – $15k" /><span>$5k – $15k</span></label>
+              <label class="pill"><input type="radio" name="budget" value="$15k – $50k" /><span>$15k – $50k</span></label>
+              <label class="pill"><input type="radio" name="budget" value="$50k+" /><span>$50k+</span></label>
+              <label class="pill"><input type="radio" name="budget" value="Still exploring" /><span>Still exploring</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="cf-message">The project <span class="req">*</span></label>
+            <textarea id="cf-message" name="message" rows="5" required
+              placeholder="What are you building? What's slowing you down? Links welcome."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-solid form-submit" data-magnetic>
+            Send it
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </button>
+
+          <p class="form-note">This opens a pre-filled email in your mail app — nothing is stored on this site.</p>
+          <p class="form-success" id="formSuccess" role="status">
+            Your email client should open with everything pre-filled. If it doesn't,
+            write to us directly at hello@izinix.studio — we reply within a day.
+          </p>
+        </form>
+
+        <!-- ── Aside ── -->
+        <aside class="contact-aside">
+          <div class="aside-card glass" data-reveal>
+            <h4>Prefer email?</h4>
+            <a class="big-link" href="mailto:hello@izinix.studio">hello@izinix.studio</a>
+            <p style="margin-top:0.6rem">Replies within one business day, usually much faster.</p>
+          </div>
+          <div class="aside-card glass" data-reveal>
+            <h4>What happens next</h4>
+            <p>
+              1 — We read your note and audit the workflow.<br />
+              2 — A 30-minute call: goals, scope, honest feasibility.<br />
+              3 — A fixed proposal with timeline and the first "after" mock.
+            </p>
+          </div>
+          <div class="aside-card glass" data-reveal>
+            <h4>Elsewhere</h4>
+            <div class="sub-links">
+              <a href="#" rel="noopener">X / Twitter</a>
+              <a href="#" rel="noopener">LinkedIn</a>
+              <a href="#" rel="noopener">Instagram</a>
+              <a href="#" rel="noopener">Dribbble</a>
+            </div>
+          </div>
+          <div class="aside-card glass" data-reveal>
+            <h4>Working hours</h4>
+            <p>Remote-first, worldwide.<br />Mon – Fri · 9:00 – 18:00 CET<br />The automations, of course, never sleep.</p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="nav-logo" data-hover><span class="spark">✦</span> IZINIX</a>
+        <p class="footer-blurb">A full-stack creative &amp; AI automation studio. Remote-first, worldwide — building products that think ahead.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sitemap</h4>
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="showcase.html">Use cases</a>
+        <a href="index.html#work">Work</a>
+      </div>
+      <div class="footer-col">
+        <h4>Socials</h4>
+        <a href="#" rel="noopener">X / Twitter</a>
+        <a href="#" rel="noopener">LinkedIn</a>
+        <a href="#" rel="noopener">Instagram</a>
+        <a href="#" rel="noopener">Dribbble</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@izinix.studio">hello@izinix.studio</a>
+        <a href="contact.html">Book a call</a>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">IZINIX</div>
+    <div class="footer-bottom">
+      <span class="mono">© 2026 Izinix Studio — All rights reserved</span>
+      <span class="mono">Crafted with GSAP + Three.js</span>
+    </div>
+  </footer>
+
+  <!-- ═══════════ Libraries ═══════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

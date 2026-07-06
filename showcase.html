@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Use Cases — Izinix</title>
+  <meta name="description" content="Five real workflows, before and after Izinix — customer support, invoicing, lead routing, reporting and onboarding, automated end to end." />
+  <meta property="og:title" content="Use Cases — Izinix" />
+  <meta property="og:description" content="Same team. Same tools. Wildly different day. See the before & after of AI automation." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2306060b'/%3E%3Cpath d='M16 5l2.6 8.4L27 16l-8.4 2.6L16 27l-2.6-8.4L5 16l8.4-2.6z' fill='%238A7CFF'/%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Space+Grotesk:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/site.css" />
+  <noscript>
+    <style>
+      .cursor-dot, .cursor-ring { display: none !important; }
+      #webgl { display: none; }
+    </style>
+  </noscript>
+</head>
+<body class="no-js">
+
+  <!-- Interactive WebGL background -->
+  <div class="bg-fallback" aria-hidden="true"></div>
+  <canvas id="webgl" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"><span class="cursor-label">View</span></div>
+
+  <!-- Nav -->
+  <nav class="nav glass" id="nav" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" data-hover>
+      <span class="spark">✦</span> IZINIX
+    </a>
+    <div class="nav-links">
+      <a href="index.html#services">Services</a>
+      <a href="showcase.html" class="active" aria-current="page">Use cases</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+    </div>
+    <a href="contact.html" class="nav-cta" data-magnetic>
+      Start a project
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="menu-overlay" id="menuOverlay">
+    <a class="menu-link" href="index.html"><span class="menu-num">01</span> Home</a>
+    <a class="menu-link" href="index.html#services"><span class="menu-num">02</span> Services</a>
+    <a class="menu-link" href="showcase.html"><span class="menu-num">03</span> Use cases</a>
+    <a class="menu-link" href="contact.html"><span class="menu-num">04</span> Contact</a>
+    <div class="menu-foot">
+      <a class="mono" href="mailto:hello@izinix.studio">hello@izinix.studio</a>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ═══════════ PAGE HERO ═══════════ -->
+    <header class="hero hero--page">
+      <div class="hero-chip glass" data-intro>
+        <span class="pulse"></span>
+        Use cases — Before / After
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line-mask"><span class="line">Same team. Same tools.</span></span>
+        <span class="line-mask"><span class="line serif">Wildly different day.</span></span>
+      </h1>
+
+      <p class="hero-sub" data-intro>
+        Five real workflows we automate for clients — shown as the day looked before
+        Izinix, and the day after. Same inputs, different universe.
+      </p>
+
+      <div class="hero-ctas" data-intro>
+        <a href="contact.html" class="btn btn-solid" data-magnetic>
+          Get this for your business
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+        <a href="#scenarios" class="btn btn-glass glass" data-magnetic>
+          See the scenarios
+        </a>
+      </div>
+
+      <div class="hero-scroll" data-intro>
+        <span class="mono">Scroll</span>
+        <span class="track"></span>
+      </div>
+    </header>
+
+    <!-- ═══════════ SCENARIOS ═══════════ -->
+    <section class="section" id="scenarios">
+      <div class="section-tag"><span class="mono">( 01 ) — Five workflows, rewired</span></div>
+
+      <div class="scenarios">
+
+        <!-- ── Scenario 01 · Customer support ── -->
+        <article class="scenario">
+          <div class="scenario-head">
+            <span class="mono">( 01 )</span>
+            <h2 class="scenario-title">Customer support</h2>
+          </div>
+          <div class="device glass">
+            <div class="device-bar">
+              <div class="device-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="device-label">IZINIX_CORE_V4.0 // SCENARIO_01</span>
+            </div>
+            <div class="device-body">
+              <div class="pane pane-before">
+                <span class="eyebrow">Scenario 01 / Before</span>
+                <h3>Tickets pile up overnight while answers live in someone's head.</h3>
+                <ul>
+                  <li><i class="x">✕</i>Agents copy-paste the same replies dozens of times a day</li>
+                  <li><i class="x">✕</i>First response takes twelve hours — customers churn while they wait</li>
+                  <li><i class="x">✕</i>Every escalation starts from zero context, again</li>
+                </ul>
+              </div>
+              <div class="pane pane-after">
+                <div class="pane-glow" aria-hidden="true"></div>
+                <span class="eyebrow ember">Scenario 01 / After</span>
+                <h3>An AI agent that answers like your best rep — instantly.</h3>
+                <ul>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>70% of tickets resolved on first contact, trained on your docs and tone</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Complex cases hand off to humans with full conversation context</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Every resolution feeds the knowledge base automatically</li>
+                </ul>
+                <div class="pane-divider" aria-hidden="true"></div>
+                <span class="eyebrow ember outcome-label">Outcome</span>
+                <p class="outcome">First response time: 12 hours → 40 seconds.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── Scenario 02 · Invoicing ── -->
+        <article class="scenario">
+          <div class="scenario-head">
+            <span class="mono">( 02 )</span>
+            <h2 class="scenario-title">Invoicing &amp; payments</h2>
+          </div>
+          <div class="device glass">
+            <div class="device-bar">
+              <div class="device-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="device-label">IZINIX_CORE_V4.0 // SCENARIO_02</span>
+            </div>
+            <div class="device-body">
+              <div class="pane pane-before">
+                <span class="eyebrow">Scenario 02 / Before</span>
+                <h3>Month-end means late nights, spreadsheets and awkward chasing.</h3>
+                <ul>
+                  <li><i class="x">✕</i>Invoice data typed out of PDFs by hand, line by line</li>
+                  <li><i class="x">✕</i>Overdue payments chased one embarrassing email at a time</li>
+                  <li><i class="x">✕</i>Reconciliation errors surface weeks later, in the worst meetings</li>
+                </ul>
+              </div>
+              <div class="pane pane-after">
+                <div class="pane-glow" aria-hidden="true"></div>
+                <span class="eyebrow ember">Scenario 02 / After</span>
+                <h3>Invoices that read, match and chase themselves.</h3>
+                <ul>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>AI extracts and reconciles every invoice against your ledger in seconds</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Polite, escalating payment reminders send themselves on schedule</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Anomalies flagged the moment they appear, not at month-end</li>
+                </ul>
+                <div class="pane-divider" aria-hidden="true"></div>
+                <span class="eyebrow ember outcome-label">Outcome</span>
+                <p class="outcome">11 hours of admin per week → 20 minutes of review.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── Scenario 03 · Lead routing ── -->
+        <article class="scenario">
+          <div class="scenario-head">
+            <span class="mono">( 03 )</span>
+            <h2 class="scenario-title">Lead routing</h2>
+          </div>
+          <div class="device glass">
+            <div class="device-bar">
+              <div class="device-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="device-label">IZINIX_CORE_V4.0 // SCENARIO_03</span>
+            </div>
+            <div class="device-body">
+              <div class="pane pane-before">
+                <span class="eyebrow">Scenario 03 / Before</span>
+                <h3>Hot leads cool off in a shared inbox nobody owns.</h3>
+                <ul>
+                  <li><i class="x">✕</i>Leads assigned first-come-first-served, regardless of fit</li>
+                  <li><i class="x">✕</i>No enrichment — reps google prospects mid-call</li>
+                  <li><i class="x">✕</i>Follow-up depends on whoever remembers, whenever they remember</li>
+                </ul>
+              </div>
+              <div class="pane pane-after">
+                <div class="pane-glow" aria-hidden="true"></div>
+                <span class="eyebrow ember">Scenario 03 / After</span>
+                <h3>Every lead scored, enriched and routed before it cools.</h3>
+                <ul>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Firmographic enrichment and intent scoring the second a form lands</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Right rep, right territory, full context — assigned automatically</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Personalized first touch drafted and queued instantly</li>
+                </ul>
+                <div class="pane-divider" aria-hidden="true"></div>
+                <span class="eyebrow ember outcome-label">Outcome</span>
+                <p class="outcome">Speed-to-lead: 9 hours → under a minute.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── Scenario 04 · Reporting ── -->
+        <article class="scenario">
+          <div class="scenario-head">
+            <span class="mono">( 04 )</span>
+            <h2 class="scenario-title">Reporting</h2>
+          </div>
+          <div class="device glass">
+            <div class="device-bar">
+              <div class="device-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="device-label">IZINIX_CORE_V4.0 // SCENARIO_04</span>
+            </div>
+            <div class="device-body">
+              <div class="pane pane-before">
+                <span class="eyebrow">Scenario 04 / Before</span>
+                <h3>Friday afternoons sacrificed to copy-paste and slide decks.</h3>
+                <ul>
+                  <li><i class="x">✕</i>Numbers pulled by hand from five different dashboards</li>
+                  <li><i class="x">✕</i>Data is stale before the deck is even finished</li>
+                  <li><i class="x">✕</i>The "why" behind the numbers never makes it into the report</li>
+                </ul>
+              </div>
+              <div class="pane pane-after">
+                <div class="pane-glow" aria-hidden="true"></div>
+                <span class="eyebrow ember">Scenario 04 / After</span>
+                <h3>Reports that write themselves — narrative included.</h3>
+                <ul>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Live data pulled from every source, on schedule, no hands</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>AI drafts the narrative: what moved, why, and what to do next</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Lands in Slack and inboxes Monday 8:00 — before anyone asks</li>
+                </ul>
+                <div class="pane-divider" aria-hidden="true"></div>
+                <span class="eyebrow ember outcome-label">Outcome</span>
+                <p class="outcome">A full reporting day per week, handed back to the team.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── Scenario 05 · Client onboarding ── -->
+        <article class="scenario">
+          <div class="scenario-head">
+            <span class="mono">( 05 )</span>
+            <h2 class="scenario-title">Client onboarding</h2>
+          </div>
+          <div class="device glass">
+            <div class="device-bar">
+              <div class="device-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="device-label">IZINIX_CORE_V4.0 // SCENARIO_05</span>
+            </div>
+            <div class="device-body">
+              <div class="pane pane-before">
+                <span class="eyebrow">Scenario 05 / Before</span>
+                <h3>Day one feels chaotic — for the client and for you.</h3>
+                <ul>
+                  <li><i class="x">✕</i>Welcome emails and kickoff docs assembled by hand, every time</li>
+                  <li><i class="x">✕</i>Documents requested one by one across endless email threads</li>
+                  <li><i class="x">✕</i>Weeks pass before the client sees any real momentum</li>
+                </ul>
+              </div>
+              <div class="pane pane-after">
+                <div class="pane-glow" aria-hidden="true"></div>
+                <span class="eyebrow ember">Scenario 05 / After</span>
+                <h3>Signature triggers everything. Humans show up for the relationship.</h3>
+                <ul>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Contract signed → workspace, kickoff sequence and portal spin up instantly</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Documents collected, verified and filed automatically</li>
+                  <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Progress visible to the client from minute one — no status-check emails</li>
+                </ul>
+                <div class="pane-divider" aria-hidden="true"></div>
+                <span class="eyebrow ember outcome-label">Outcome</span>
+                <p class="outcome">Client ramp-up: 3 weeks → 4 days.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ═══════════ CLOSING CTA ═══════════ -->
+    <section class="section cta">
+      <div class="section-tag" style="justify-content:center"><span class="mono">( 02 ) — Your turn</span></div>
+      <h2 class="cta-title" data-reveal>Ready to see this<br /><span class="serif grad-text">for your business?</span></h2>
+      <p class="cta-sub" data-reveal>Bring us one painful workflow. We'll show you its "after" — free, no deck, no fluff.</p>
+      <a href="contact.html" class="cta-btn glass" data-magnetic data-reveal>
+        <span class="orb" aria-hidden="true"></span>
+        Start the conversation
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="nav-logo" data-hover><span class="spark">✦</span> IZINIX</a>
+        <p class="footer-blurb">A full-stack creative &amp; AI automation studio. Remote-first, worldwide — building products that think ahead.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sitemap</h4>
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="showcase.html">Use cases</a>
+        <a href="index.html#work">Work</a>
+      </div>
+      <div class="footer-col">
+        <h4>Socials</h4>
+        <a href="#" rel="noopener">X / Twitter</a>
+        <a href="#" rel="noopener">LinkedIn</a>
+        <a href="#" rel="noopener">Instagram</a>
+        <a href="#" rel="noopener">Dribbble</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@izinix.studio">hello@izinix.studio</a>
+        <a href="contact.html">Book a call</a>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">IZINIX</div>
+    <div class="footer-bottom">
+      <span class="mono">© 2026 Izinix Studio — All rights reserved</span>
+      <span class="mono">Crafted with GSAP + Three.js</span>
+    </div>
+  </footer>
+
+  <!-- ═══════════ Libraries ═══════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
