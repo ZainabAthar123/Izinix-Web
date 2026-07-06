@@ -310,18 +310,17 @@
     });
 
     // hero canvas drifts up + fades as the page leaves it behind
-    var heroBg = document.querySelector('.hero-bg');
-    if (heroBg) {
+    document.querySelectorAll('.hero-bg').forEach(function (heroBg) {
       gsap.to(heroBg, {
         yPercent: 18, opacity: 0.25, ease: 'none',
         scrollTrigger: {
-          trigger: '.hero',
+          trigger: heroBg.closest('.hero') || heroBg,
           start: 'top top',
           end: 'bottom top',
           scrub: true
         }
       });
-    }
+    });
   }
 
   /* ============================================================

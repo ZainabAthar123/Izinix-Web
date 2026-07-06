@@ -1,0 +1,194 @@
+#!/usr/bin/env node
+/* ============================================================
+   Builds izinix-preview.html — the whole site in ONE file that
+   opens straight from disk (double-click, no server, no assets
+   folder). All three pages are inlined as views; the nav swaps
+   them with a tiny hash router. Regenerate after editing the
+   site:  node tools/build-preview.js
+   ============================================================ */
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = path.join(__dirname, '..');
+const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
+
+const css = read('assets/css/style.css');
+const threeBg = read('assets/js/three-bg.js');
+let mainJs = read('assets/js/main.js');
+
+// Let router-owned hashes (#home/#work/#contact/#services) fall through to
+// native hash navigation instead of being swallowed by the smooth-scroll
+// anchor handler.
+mainJs = mainJs.replace(
+  "    var el = document.querySelector(a.getAttribute('href'));",
+  "    var href = a.getAttribute('href');\n" +
+  "    if (window.__IZX_ROUTES && window.__IZX_ROUTES[href]) return;\n" +
+  "    var el = document.querySelector(href);"
+);
+if (!mainJs.includes('__IZX_ROUTES')) {
+  throw new Error('anchor-handler patch failed — main.js changed shape');
+}
+
+const pages = {
+  home: read('index.html'),
+  work: read('work.html'),
+  contact: read('contact.html'),
+};
+
+function extractMain(html, name) {
+  const m = html.match(/<main id="main">([\s\S]*?)<\/main>/);
+  if (!m) throw new Error('no <main> found in ' + name);
+  return m[1];
+}
+
+function rewriteLinks(html) {
+  return html
+    .replace(/href="index\.html#services"/g, 'href="#services"')
+    .replace(/href="index\.html(#[\w-]+)?"/g, 'href="#home"')
+    .replace(/href="work\.html"/g, 'href="#work"')
+    .replace(/href="contact\.html"/g, 'href="#contact"');
+}
+
+const views = {};
+for (const [name, html] of Object.entries(pages)) {
+  let v = rewriteLinks(extractMain(html, name));
+  // ids must stay unique across the merged document
+  v = v.replace(/ id="hero-canvas"/g, ' data-hero-canvas');
+  if (name === 'home') v = v.replace(' id="work"', ' id="showcase"');
+  views[name] = v.trim();
+}
+
+// shared chrome comes from the homepage
+const grab = (re, name) => {
+  const m = pages.home.match(re);
+  if (!m) throw new Error('could not extract ' + name);
+  return rewriteLinks(m[0]);
+};
+const loader = grab(/<!-- Loader curtain -->[\s\S]*?<\/div>\s*<\/div>/, 'loader');
+const header = grab(/<header class="site-nav">[\s\S]*?<\/header>/, 'header');
+const mobileMenu = grab(/<div class="mobile-menu"[\s\S]*?<\/div>/, 'mobile menu');
+const footer = grab(/<footer class="site-footer">[\s\S]*?<\/footer>/, 'footer');
+const fontsLink = pages.home.match(/<link href="https:\/\/fonts\.googleapis\.com[^>]+>/)[0];
+const favicon = pages.home.match(/<link rel="icon"[^>]+>/)[0];
+
+const titles = {
+  '#home': 'IZINIX — AI Automation Agency · Design, Build, Automate',
+  '#work': 'Work & Use Cases — IZINIX · Before vs After Automation',
+  '#contact': 'Contact — IZINIX · Start Your Project',
+};
+
+const routerJs = `
+/* hash router — one file, three pages */
+(function () {
+  'use strict';
+  var ROUTES = { '#home': 'view-home', '#work': 'view-work', '#contact': 'view-contact', '#services': 'view-home' };
+  var TITLES = ${JSON.stringify(titles)};
+  window.__IZX_ROUTES = ROUTES;
+
+  function norm() {
+    var h = location.hash || '#home';
+    return ROUTES[h] ? h : '#home';
+  }
+
+  function apply(first) {
+    var h = norm();
+    var viewId = ROUTES[h];
+    document.querySelectorAll('.izx-view').forEach(function (v) {
+      v.style.display = (v.id === viewId) ? '' : 'none';
+    });
+    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(function (a) {
+      var href = a.getAttribute('href');
+      var active = href === h || (h === '#services' && href === '#home');
+      a.classList.toggle('is-active', active);
+      if (active) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+    document.title = TITLES[h === '#services' ? '#home' : h] || document.title;
+    if (!first) window.scrollTo(0, 0);
+    var anchor = (h === '#services') ? document.getElementById('services') : null;
+    requestAnimationFrame(function () {
+      window.dispatchEvent(new Event('resize')); // hero canvases pick up their real size
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+      if (anchor) anchor.scrollIntoView();
+      if (!first && window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var v = document.getElementById(viewId);
+        gsap.fromTo(v, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', clearProps: 'opacity,transform' });
+      }
+    });
+  }
+
+  window.addEventListener('hashchange', function () { apply(false); });
+  apply(true);
+})();
+`;
+
+const out = `<!DOCTYPE html>
+<!-- Generated by tools/build-preview.js — do not edit by hand.
+     Single-file preview of the IZINIX site: open directly in a browser. -->
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${titles['#home']}</title>
+  <meta name="description" content="Single-file preview of the IZINIX marketing site — home, use cases, and contact in one HTML document." />
+  ${favicon}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  ${fontsLink}
+
+  <style>
+${css}
+  /* preview-only: views are swapped by the hash router */
+  .izx-view { min-height: 100svh; }
+  </style>
+</head>
+<body data-page="preview">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  ${loader}
+
+  ${header}
+
+  ${mobileMenu}
+
+  <main id="main">
+    <div class="izx-view" id="view-home">
+${views.home}
+    </div>
+
+    <div class="izx-view" id="view-work" style="display:none">
+${views.work}
+    </div>
+
+    <div class="izx-view" id="view-contact" style="display:none">
+${views.contact}
+    </div>
+  </main>
+
+  ${footer}
+
+  <!-- CDN libs (site still renders fully readable without them) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+${routerJs}
+  </script>
+  <script>
+${mainJs}
+  </script>
+  <script>
+${threeBg}
+  </script>
+</body>
+</html>
+`;
+
+fs.writeFileSync(path.join(ROOT, 'izinix-preview.html'), out);
+console.log('wrote izinix-preview.html (' + (out.length / 1024).toFixed(0) + ' KB)');
