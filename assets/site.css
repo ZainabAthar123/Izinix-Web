@@ -389,10 +389,7 @@ img, svg, canvas { display: block; max-width: 100%; }
 .hero-title .serif {
   font-size: 1.04em;
   letter-spacing: -0.02em;
-  background: var(--grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--pop);
 }
 
 .hero-sub {
