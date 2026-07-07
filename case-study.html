@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Study: Customer Support — Izinix</title>
+  <meta name="description" content="How Vantage cut first response time from 12 hours to 40 seconds with an Izinix AI support agent — the pain point, what we made, what was achieved, and the impact." />
+  <meta property="og:title" content="Case Study: Customer Support — Izinix" />
+  <meta property="og:description" content="From 12 hours to 40 seconds. 70% of tickets resolved without a human. Here's how." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2306060b'/%3E%3Cpath d='M16 5l2.6 8.4L27 16l-8.4 2.6L16 27l-2.6-8.4L5 16l8.4-2.6z' fill='%238A7CFF'/%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Space+Grotesk:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/site.css" />
+  <noscript>
+    <style>
+      .cursor-dot, .cursor-ring { display: none !important; }
+      #webgl { display: none; }
+    </style>
+  </noscript>
+</head>
+<body class="no-js">
+
+  <!-- Interactive WebGL background -->
+  <div class="bg-fallback" aria-hidden="true"></div>
+  <canvas id="webgl" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"><span class="cursor-label">View</span></div>
+
+  <!-- Nav -->
+  <nav class="nav glass" id="nav" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" data-hover>
+      <span class="spark">✦</span> IZINIX
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="showcase.html" class="active" aria-current="page">Use cases</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="contact.html" class="nav-cta" data-magnetic>
+      Start a project
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="menu-overlay" id="menuOverlay">
+    <a class="menu-link" href="index.html"><span class="menu-num">01</span> Home</a>
+    <a class="menu-link" href="showcase.html"><span class="menu-num">02</span> Use cases</a>
+    <a class="menu-link" href="contact.html"><span class="menu-num">03</span> Contact</a>
+    <div class="menu-foot">
+      <a class="mono" href="mailto:hello@izinix.studio">hello@izinix.studio</a>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ═══════════ PAGE HERO ═══════════ -->
+    <header class="hero hero--page">
+      <a href="showcase.html" class="back-crumb" data-intro>← All use cases</a>
+
+      <div class="hero-chip glass" data-intro>
+        <span class="pulse"></span>
+        Use case 01 — Customer support
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line-mask"><span class="line">From 12 hours</span></span>
+        <span class="line-mask"><span class="line serif">to 40 seconds.</span></span>
+      </h1>
+
+      <p class="hero-sub" data-intro>
+        How Vantage turned support from its slowest channel into its most loved one —
+        with an AI agent trained on their own docs, tone and two years of tickets.
+      </p>
+
+      <div class="case-meta glass" data-intro>
+        <div>
+          <h5>Client</h5>
+          <p>Vantage</p>
+        </div>
+        <div>
+          <h5>Industry</h5>
+          <p>eCommerce</p>
+        </div>
+        <div>
+          <h5>Timeline</h5>
+          <p>6 weeks</p>
+        </div>
+        <div>
+          <h5>Services</h5>
+          <p>AI Automation · UI/UX</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════ 01 · PAIN POINT ═══════════ -->
+    <section class="section" id="pain">
+      <div class="section-tag"><span class="mono">( 01 ) — The pain point</span></div>
+      <h2 class="h2 split-heading">Support was the bottleneck</h2>
+
+      <div class="pain-grid">
+        <p class="lede" data-reveal>
+          Vantage was fielding 1,900 tickets a month with a team of five. Every answer
+          was typed from scratch, every escalation started from zero, and growth only
+          made it worse — each new cohort of customers created tickets faster than
+          the team could hire.
+        </p>
+        <div class="pain-card glass" data-reveal>
+          <ul>
+            <li><i class="x">✕</i>12-hour average first response — and climbing</li>
+            <li><i class="x">✕</i>38% of tickets were the same six questions</li>
+            <li><i class="x">✕</i>Zero coverage on nights and weekends</li>
+            <li><i class="x">✕</i>Escalations arrived with no history or context</li>
+            <li><i class="x">✕</i>CSAT sliding for three consecutive quarters</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 02 · WHAT WE MADE ═══════════ -->
+    <section class="section" id="made">
+      <div class="section-tag"><span class="mono">( 02 ) — What we made</span></div>
+      <h2 class="h2 split-heading">One agent, three pieces</h2>
+
+      <div class="dlv-grid">
+        <div class="dlv-card glass" data-reveal>
+          <span class="num">DLV / 01</span>
+          <h3>Support AI agent</h3>
+          <p>A conversational agent grounded in 1,400 help-centre docs and two years of resolved tickets — answering in Vantage's voice, across email, chat and social.</p>
+          <div class="tags"><span>RAG</span><span>Tone-tuned</span><span>11 languages</span></div>
+        </div>
+        <div class="dlv-card glass" data-reveal>
+          <span class="num">DLV / 02</span>
+          <h3>Agent-assist console</h3>
+          <p>The human side: live conversation summaries, sentiment flags and suggested replies, so escalations start at 80% done instead of zero.</p>
+          <div class="tags"><span>UI/UX</span><span>Design system</span><span>Real-time</span></div>
+        </div>
+        <div class="dlv-card glass" data-reveal>
+          <span class="num">DLV / 03</span>
+          <h3>Learning loop</h3>
+          <p>Every resolution is graded and fed back nightly. Weak answers get flagged, the knowledge base updates itself, and the agent gets sharper every week.</p>
+          <div class="tags"><span>Analytics</span><span>Auto-KB</span><span>Weekly digest</span></div>
+        </div>
+      </div>
+
+      <!-- Pipeline device frame -->
+      <div class="device glass" style="margin-top: 2.5rem;" data-reveal>
+        <div class="device-bar">
+          <div class="device-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span class="device-label">VANTAGE_SUPPORT_AGENT // PIPELINE_V2</span>
+        </div>
+        <ul class="pipeline">
+          <li><span class="ptag">[ intake ]</span><span class="parrow">→</span><span>Customer message lands — email, chat or social</span></li>
+          <li><span class="ptag">[ triage ]</span><span class="parrow">→</span><span>Intent and sentiment classified in ~300&nbsp;ms</span></li>
+          <li><span class="ptag">[ retrieve ]</span><span class="parrow">→</span><span>Answer grounded in Vantage's docs and past resolutions</span></li>
+          <li><span class="ptag">[ resolve ]</span><span class="parrow">→</span><span>Reply sent — or human hand-off with summary, sentiment and history</span></li>
+          <li><span class="ptag">[ learn ]</span><span class="parrow">→</span><span>Resolution graded and fed back to the knowledge base nightly</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═══════════ 03 · WHAT WAS ACHIEVED ═══════════ -->
+    <section class="section" id="achieved">
+      <div class="section-tag"><span class="mono">( 03 ) — What was achieved</span></div>
+      <h2 class="h2 split-heading">The numbers moved fast</h2>
+
+      <ul class="achieved-list" data-reveal>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>70% of tickets resolved without a human touching them</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Every hand-off arrives with summary, sentiment and full history</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>24/7 coverage in 11 languages, in Vantage's own tone</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L4.5 9L10 3"/></svg></span>Shipped in six weeks, behind a flag, measured from day one</li>
+      </ul>
+
+      <div class="compare-wrap" data-reveal>
+        <table class="compare">
+          <thead>
+            <tr><th>Metric</th><th>Before</th><th>After</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="m">First response</td><td class="b">12 hours</td><td class="a">40 seconds</td></tr>
+            <tr><td class="m">Auto-resolution</td><td class="b">0%</td><td class="a">70%<span class="up">▲</span></td></tr>
+            <tr><td class="m">Coverage</td><td class="b">8 × 5, one timezone</td><td class="a">24/7, 11 languages</td></tr>
+            <tr><td class="m">CSAT</td><td class="b">71</td><td class="a">89<span class="up">▲</span></td></tr>
+            <tr><td class="m">Escalation context</td><td class="b">None — start from scratch</td><td class="a">Summary + sentiment + history</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stats-grid" data-reveal style="margin-top: 2.5rem;">
+        <div class="stat-cell">
+          <span class="stat-value"><span data-count="70">0</span><span class="suffix">%</span></span>
+          <span class="stat-label">Tickets resolved by AI</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-value"><span data-count="40">0</span><span class="suffix">s</span></span>
+          <span class="stat-label">Average first response</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-value"><span data-count="89">0</span><span class="suffix"></span></span>
+          <span class="stat-label">CSAT, up from 71</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-value"><span data-count="240">0</span><span class="suffix">k</span></span>
+          <span class="stat-label">Support cost saved per year ($)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 04 · IMPACT ═══════════ -->
+    <section class="section" id="impact">
+      <div class="section-tag"><span class="mono">( 04 ) — Impact</span></div>
+      <div class="manifesto">
+        <p class="manifesto-text" id="manifestoText">In one quarter, Vantage went from apologising for wait times to being complimented on them. Support stopped being a cost centre and became the fastest, most consistent voice of the brand — awake around the clock, in every language their customers speak.</p>
+      </div>
+
+      <div class="quote-wrap" style="margin-top: clamp(3.5rem, 7vw, 6rem);" data-reveal>
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <p class="quote-text">The site won us compliments — the automation won us margin. Our team finally spends its time on the conversations that actually need a human.</p>
+        <div class="quote-author">
+          <strong>Sarah Chen</strong>
+          <span class="mono">COO — Vantage</span>
+        </div>
+      </div>
+
+      <!-- Prev / next -->
+      <div class="pagenav">
+        <a href="showcase.html" class="case-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          All use cases
+        </a>
+        <span class="case-link soon">Next: Invoicing &amp; payments — coming soon</span>
+      </div>
+    </section>
+
+    <!-- ═══════════ CTA ═══════════ -->
+    <section class="section cta">
+      <div class="section-tag" style="justify-content:center"><span class="mono">( 05 ) — Your turn</span></div>
+      <h2 class="cta-title" data-reveal>Want numbers like these?<br /><span class="serif grad-text">Let's write yours.</span></h2>
+      <p class="cta-sub" data-reveal>Bring us your support queue, your invoices, your chaos — we'll bring the before/after.</p>
+      <a href="contact.html" class="cta-btn glass" data-magnetic data-reveal>
+        <span class="orb" aria-hidden="true"></span>
+        Start a project
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="nav-logo" data-hover><span class="spark">✦</span> IZINIX</a>
+        <p class="footer-blurb">A full-stack creative &amp; AI automation studio. Remote-first, worldwide — building products that think ahead.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sitemap</h4>
+        <a href="index.html">Home</a>
+        <a href="showcase.html">Use cases</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Socials</h4>
+        <a href="#" rel="noopener">X / Twitter</a>
+        <a href="#" rel="noopener">LinkedIn</a>
+        <a href="#" rel="noopener">Instagram</a>
+        <a href="#" rel="noopener">Dribbble</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@izinix.studio">hello@izinix.studio</a>
+        <a href="contact.html">Book a call</a>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">IZINIX</div>
+    <div class="footer-bottom">
+      <span class="mono">© 2026 Izinix Studio — All rights reserved</span>
+      <span class="mono">Crafted with GSAP + Three.js</span>
+    </div>
+  </footer>
+
+  <!-- ═══════════ Libraries ═══════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
